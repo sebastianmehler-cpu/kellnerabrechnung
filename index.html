@@ -1,25 +1,54 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-
 <meta charset="UTF-8">
-<meta name="viewport"
-content="width=device-width, initial-scale=1">
-
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Kellerabrechnung</title>
 
-<link rel="manifest" href="manifest.json">
-1>Kellerabrechnung</h1>
+<style>
+body{
+    font-family:Arial,sans-serif;
+    background:#f4f6f8;
+    margin:0;
+    padding:20px;
+}
+.container{
+    max-width:900px;
+    margin:auto;
+}
+.card{
+    background:white;
+    padding:15px;
+    border-radius:10px;
+    margin-bottom:15px;
+    box-shadow:0 2px 5px rgba(0,0,0,.1);
+}
+h1{
+    text-align:center;
+}
+button{
+    padding:10px 15px;
+    border:none;
+    border-radius:8px;
+    background:#2f6fed;
+    color:white;
+}
+input{
+    padding:8px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>🍺 Kellerabrechnung</h1>
 
 <div class="card">
 
-<button onclick="addDrink()">
-+ Getränk
-</button>
-
-<button onclick="addDeduction()">
-+ Abzug
-</button>
+<button onclick="addDrink()">+ Getränk</button>
+<button onclick="addDeduction()">+ Abzug</button>
 
 </div>
 
@@ -29,26 +58,54 @@ Provision %
 
 <input
 id="provision"
-value="10"
 type="number"
+value="10"
 oninput="calculate()">
 
 </div>
 
-<div
-class="card total"
-id="result">
+<div class="card" id="output">
+
 Bereit
+
 </div>
 
-app.jsscript>
+</div>
 
 <script>
 
-if ('serviceWorker' in navigator) {
- navigator.serviceWorker.register(
- 'service-worker.js'
- );
+let umsatz = 0;
+let abzuege = 0;
+
+function addDrink(){
+    umsatz += 10;
+    calculate();
+}
+
+function addDeduction(){
+    abzuege += 5;
+    calculate();
+}
+
+function calculate(){
+
+    let provision =
+       umsatz *
+       document.getElementById("provision").value / 100;
+
+    let auszahlung =
+        umsatz -
+        provision -
+        abzuege;
+
+    document.getElementById("output").innerHTML =
+    `
+    Umsatz: ${umsatz.toFixed(2)} €<br>
+    Provision: ${provision.toFixed(2)} €<br>
+    Abzüge: ${abzuege.toFixed(2)} €<br>
+    <hr>
+    Auszahlung: ${auszahlung.toFixed(2)} €
+    `;
 }
 
 </script>
