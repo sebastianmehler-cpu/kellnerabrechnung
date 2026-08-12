@@ -10,7 +10,6 @@
 
 :root{
     --primary:#1F4E79;
-    --success:#28a745;
     --danger:#dc3545;
     --bg:#f4f7fb;
 }
@@ -73,10 +72,6 @@ body{
     box-shadow:0 3px 10px rgba(0,0,0,.08);
 }
 
-h2{
-    color:var(--primary);
-}
-
 .tableHeader,
 .row{
     display:grid;
@@ -89,7 +84,8 @@ h2{
 .tableHeader{
     font-weight:bold;
     border-bottom:1px solid #ddd;
-    padding-bottom:8px;
+    padding-bottom:10px;
+    color:#444;
 }
 
 input{
@@ -97,6 +93,24 @@ input{
     padding:10px;
     border:1px solid #ccc;
     border-radius:8px;
+}
+
+.currency{
+    position:relative;
+}
+
+.currency:after{
+    content:"€";
+    position:absolute;
+    right:12px;
+    top:50%;
+    transform:translateY(-50%);
+    color:#666;
+    pointer-events:none;
+}
+
+.currency input{
+    padding-right:25px;
 }
 
 button{
@@ -108,30 +122,18 @@ button{
 
 .btnAdd{
     width:100%;
-    background:var(--primary);
+    background:#1F4E79;
     color:white;
     font-weight:bold;
 }
 
 .btnDelete{
-    background:var(--danger);
+    background:#dc3545;
     color:white;
-}
-
-.footer{
-    display:flex;
-    gap:10px;
-    margin-top:20px;
-}
-
-.footer button{
-    flex:1;
-    color:white;
-    background:var(--primary);
 }
 
 .result{
-    background:var(--primary);
+    background:#1F4E79;
     color:white;
     text-align:center;
     padding:20px;
@@ -143,6 +145,17 @@ button{
     font-weight:bold;
 }
 
+.footer{
+    display:flex;
+    gap:10px;
+}
+
+.footer button{
+    flex:1;
+    background:#1F4E79;
+    color:white;
+}
+
 @media(max-width:700px){
 
 .tableHeader{
@@ -151,8 +164,8 @@ button{
 
 .row{
     grid-template-columns:1fr;
-    padding-bottom:15px;
     border-bottom:1px solid #eee;
+    padding-bottom:10px;
 }
 
 }
@@ -173,17 +186,17 @@ button{
 
 <div class="stat">
 <div class="statTitle">💰 Umsatz</div>
-<div id="umsatzCard" class="statValue">0,00 €</div>
+<div id="umsatzCard" class="statValue">0.00 €</div>
 </div>
 
 <div class="stat">
 <div class="statTitle">🎫 Provision</div>
-<div id="provisionCard" class="statValue">0,00 €</div>
+<div id="provisionCard" class="statValue">0.00 €</div>
 </div>
 
 <div class="stat">
 <div class="statTitle">➖ Abzüge</div>
-<div id="abzugCard" class="statValue">0,00 €</div>
+<div id="abzugCard" class="statValue">0.00 €</div>
 </div>
 
 </div>
@@ -215,7 +228,7 @@ button{
 <div class="tableHeader">
 <div>Abzug</div>
 <div>Anzahl</div>
-<div>Preis (€)</div>
+<div>Wert (€)</div>
 <div>Summe (€)</div>
 <div></div>
 </div>
@@ -243,9 +256,11 @@ oninput="calculate()">
 <div class="result">
 <div>💵 Auszahlung</div>
 <div id="auszahlung" class="resultValue">
-0,00 €
+0.00 €
 </div>
 </div>
+
+<br>
 
 <div class="footer">
 <button onclick="saveData()">💾 Speichern</button>
@@ -257,166 +272,173 @@ oninput="calculate()">
 <script>
 
 let drinks = [
-    {name:"Bier",qty:0,price:0},
-    {name:"Weizen",qty:0,price:0},
-    {name:"Cola",qty:0,price:0}
+{name:"Bier",qty:0,price:0},
+{name:"Weizen",qty:0,price:0},
+{name:"Cola",qty:0,price:0}
 ];
 
 let deductions = [
-    {name:"Gutscheine",qty:0,price:0}
+{name:"Gutscheine",qty:0,price:0}
 ];
 
 function addDrink(){
 
-    drinks.push({
-        name:"Neues Getränk",
-        qty:0,
-        price:0
-    });
+drinks.push({
+name:"Neues Getränk",
+qty:0,
+price:0
+});
 
-    render();
+render();
 }
 
 function addDeduction(){
 
-    deductions.push({
-        name:"Neuer Abzug",
-        qty:0,
-        price:0
-    });
+deductions.push({
+name:"Neuer Abzug",
+qty:0,
+price:0
+});
 
-    render();
+render();
 }
 
 function saveData(){
 
-    localStorage.setItem(
-        "drinks",
-        JSON.stringify(drinks)
-    );
+localStorage.setItem(
+"drinks",
+JSON.stringify(drinks)
+);
 
-    localStorage.setItem(
-        "deductions",
-        JSON.stringify(deductions)
-    );
+localStorage.setItem(
+"deductions",
+JSON.stringify(deductions)
+);
 
-    alert("Abrechnung gespeichert");
+alert("✅ Abrechnung gespeichert");
 }
 
 function render(){
 
-    let drinkHtml="";
+let drinkHTML="";
 
-    drinks.forEach((d,i)=>{
+drinks.forEach((d,i)=>{
 
-        drinkHtml+=`
-        <div class="row">
+drinkHTML += `
 
-        <input
-        value="${d.name}"
-        onchange="drinks[${i}].name=this.value">
+<div class="row">
 
-        <input
-        type="number"
-        value="${d.qty}"
-        onchange="drinks[${i}].qty=parseFloat(this.value)||0;calculate()">
+<input
+value="${d.name}"
+onchange="drinks[${i}].name=this.value">
 
-        <input
-        type="number"
-        step="0.01"
-        value="${d.price}"
-        onchange="drinks[${i}].price=parseFloat(this.value)||0;calculate()">
+<input
+type="number"
+value="${d.qty}"
+onchange="drinks[${i}].qty=parseFloat(this.value)||0;calculate()">
 
-        <div>
-        <strong>${(d.qty*d.price).toFixed(2)} €</strong>
-        </div>
+<div class="currency">
+<input
+type="number"
+step="0.01"
+value="${d.price}"
+onchange="drinks[${i}].price=parseFloat(this.value)||0;calculate()">
+</div>
 
-        <button
-        class="btnDelete"
-        onclick="drinks.splice(${i},1);render()">
-        🗑
-        </button>
+<div>
+<strong>${(d.qty*d.price).toFixed(2)} €</strong>
+</div>
 
-        </div>
-        `;
-    });
+<button
+class="btnDelete"
+onclick="drinks.splice(${i},1);render()">
+🗑
+</button>
 
-    document.getElementById("drinkList").innerHTML=drinkHtml;
+</div>
+`;
+});
 
-    let deductionHtml="";
+document.getElementById("drinkList").innerHTML=drinkHTML;
 
-    deductions.forEach((d,i)=>{
+let deductionHTML="";
 
-        deductionHtml+=`
-        <div class="row">
+deductions.forEach((d,i)=>{
 
-        <input
-        value="${d.name}"
-        onchange="deductions[${i}].name=this.value">
+deductionHTML += `
 
-        <input
-        type="number"
-        value="${d.qty}"
-        onchange="deductions[${i}].qty=parseFloat(this.value)||0;calculate()">
+<div class="row">
 
-        <input
-        type="number"
-        step="0.01"
-        value="${d.price}"
-        onchange="deductions[${i}].price=parseFloat(this.value)||0;calculate()">
+<input
+value="${d.name}"
+onchange="deductions[${i}].name=this.value">
 
-        <div>
-        <strong>${(d.qty*d.price).toFixed(2)} €</strong>
-        </div>
+<input
+type="number"
+value="${d.qty}"
+onchange="deductions[${i}].qty=parseFloat(this.value)||0;calculate()">
 
-        <button
-        class="btnDelete"
-        onclick="deductions.splice(${i},1);render()">
-        🗑
-        </button>
+<div class="currency">
+<input
+type="number"
+step="0.01"
+value="${d.price}"
+onchange="deductions[${i}].price=parseFloat(this.value)||0;calculate()">
+</div>
 
-        </div>
-        `;
-    });
+<div>
+<strong>${(d.qty*d.price).toFixed(2)} €</strong>
+</div>
 
-    document.getElementById("deductionList").innerHTML=deductionHtml;
+<button
+class="btnDelete"
+onclick="deductions.splice(${i},1);render()">
+🗑
+</button>
 
-    calculate();
+</div>
+
+`;
+});
+
+document.getElementById("deductionList").innerHTML=deductionHTML;
+
+calculate();
 }
 
 function calculate(){
 
-    let revenue=0;
-    let deductionTotal=0;
+let revenue=0;
+let deductionTotal=0;
 
-    drinks.forEach(d=>{
-        revenue += d.qty * d.price;
-    });
+drinks.forEach(d=>{
+revenue += d.qty*d.price;
+});
 
-    deductions.forEach(d=>{
-        deductionTotal += d.qty * d.price;
-    });
+deductions.forEach(d=>{
+deductionTotal += d.qty*d.price;
+});
 
-    const provisionRate =
-        Number(document.getElementById("provision").value) || 0;
+const provisionRate =
+Number(document.getElementById("provision").value) || 0;
 
-    const provision =
-        revenue * provisionRate / 100;
+const provision =
+revenue * provisionRate / 100;
 
-    const payout =
-        revenue - provision - deductionTotal;
+const payout =
+revenue - provision - deductionTotal;
 
-    document.getElementById("umsatzCard").innerText =
-        revenue.toFixed(2) + " €";
+document.getElementById("umsatzCard").innerText =
+revenue.toFixed(2) + " €";
 
-    document.getElementById("provisionCard").innerText =
-        provision.toFixed(2) + " €";
+document.getElementById("provisionCard").innerText =
+provision.toFixed(2) + " €";
 
-    document.getElementById("abzugCard").innerText =
-        deductionTotal.toFixed(2) + " €";
+document.getElementById("abzugCard").innerText =
+deductionTotal.toFixed(2) + " €";
 
-    document.getElementById("auszahlung").innerText =
-        payout.toFixed(2) + " €";
+document.getElementById("auszahlung").innerText =
+payout.toFixed(2) + " €";
 }
 
 render();
