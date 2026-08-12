@@ -1,184 +1,193 @@
-# 🍺 Kellerabrechnung
-
-Eine moderne Web-App zur Verwaltung von Keller-, Vereins- und Veranstaltungsabrechnungen.
-
-## 🌐 Live-Version
-
-https://sebastianmehler-cpu.github.io/kellnerabrechnung/
-
----
-
-# Aktuelle Version
-
-## Version 1.0
-
-### Funktionen
-
-✅ Getränke anlegen
-
-✅ Getränke löschen
-
-✅ Abzüge anlegen
-
-✅ Abzüge löschen
-
-✅ Namen frei bearbeiten
-
-✅ Mengen erfassen
-
-✅ Preise erfassen
-
-✅ Automatische Berechnung
-
-✅ Provision in Prozent
-
-✅ Auszahlung berechnen
-
-### Formel
-
-Auszahlung = Umsatz - Provision - Abzüge
-
----
-
-# Geplante Entwicklung
-
-## Version 1.1
-
-### Design Update
-
-- Modernes iPhone Layout
-- Größere Buttons
-- Bessere Lesbarkeit
-- Vereins-/Kellerdesign
-
----
-
-## Version 1.2
-
-### Speicherung
-
-- Automatisches Speichern
-- Daten nach Browser-Neustart erhalten
-- Lokale Speicherung im Browser
-
----
-
-## Version 1.3
-
-### Tagesabschluss
-
-- Abrechnung speichern
-- Tagesabschluss laden
-- Historie anzeigen
-
-Beispiel:
-
-2026-08-12
-
-2026-08-13
-
-2026-08-14
-
----
-
-## Version 1.4
-
-### PDF Export
-
-- PDF erzeugen
-- Druckansicht
-- Vereinslogo im PDF
-
----
-
-## Version 1.5
-
-### Installierbare App (PWA)
-
-- iPhone kompatibel
-- Android kompatibel
-- Home-Bildschirm Installation
-- Offline nutzbar
-
----
-
-## Version 2.0
-
-### Auswertungen
-
-- Tagesumsatz
-- Monatsumsatz
-- Jahresumsatz
-- Anzahl Abrechnungen
-
----
-
-## Version 2.1
-
-### Getränke Vorlagen
-
-Standardgetränke:
-
-- Bier
-- Weizen
-- Cola
-- Limo
-- Wasser
-- Schnaps
-- Weinschorle
-- Schwarze Maß
-
----
-
-## Version 2.2
-
-### Erweiterte Abzüge
-
-- Gutscheine
-- Biermarken
-- Leergut
-- Krüge
-- Flaschen
-- Freie Abzüge
-
----
-
-## Version 3.0
-
-### Vereinsmodus
-
-- Mehrere Veranstaltungen
-- Veranstaltungsnamen
-- Archiv
-- Jahresübersicht
-
----
-
-# Ideen Backlog
-
-## Wunschliste
-
-- Dark Mode
-- Excel Export
-- CSV Export
-- QR-Code für Abrechnungen
-- Cloud Synchronisierung
-- Vereinslogo
-- Statistik Dashboard
-- Umsatzdiagramme
-
----
-
-# Projektstatus
-
-Aktive Entwicklung
-
-Aktuelle Version:
-**v1.0**
-
-Nächstes Ziel:
-**v1.1 Design Update**
-
----
-
-Erstellt von Sebastian Mehler
+:root{
+    --primary:#1F4E79;
+    --danger:#DC3545;
+    --bg:#F3F5F9;
+    --card:#FFFFFF;
+    --border:#E5E7EB;
+}
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    padding:12px;
+    background:var(--bg);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+
+.container{
+    max-width:500px;
+    margin:auto;
+}
+
+h1{
+    text-align:center;
+    color:var(--primary);
+    margin-bottom:5px;
+    font-size:42px;
+}
+
+.subtitle{
+    text-align:center;
+    color:#666;
+    margin-bottom:20px;
+    font-size:16px;
+}
+
+.dashboard{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+    margin-bottom:20px;
+}
+
+.stat{
+    background:white;
+    border-radius:18px;
+    padding:15px 10px;
+    text-align:center;
+    box-shadow:0 4px 12px rgba(0,0,0,.05);
+}
+
+.stat-title{
+    font-size:13px;
+    color:#666;
+    margin-bottom:6px;
+}
+
+.stat-value{
+    font-size:18px;
+    font-weight:700;
+}
+
+.section{
+    background:white;
+    border-radius:22px;
+    padding:16px;
+    margin-bottom:18px;
+    box-shadow:0 4px 12px rgba(0,0,0,.05);
+}
+
+.section h2{
+    color:var(--primary);
+    margin-top:0;
+    margin-bottom:15px;
+    font-size:24px;
+}
+
+.table-header{
+    display:grid;
+    grid-template-columns:90px 55px 65px 75px 32px;
+    gap:5px;
+    align-items:center;
+    padding-bottom:8px;
+    border-bottom:1px solid var(--border);
+    font-size:12px;
+    font-weight:700;
+}
+
+.row{
+    display:grid;
+    grid-template-columns:90px 55px 65px 75px 32px;
+    gap:5px;
+    align-items:center;
+    margin-top:10px;
+}
+
+input{
+    width:100%;
+    padding:10px 6px;
+    border:1px solid #D1D5DB;
+    border-radius:12px;
+    font-size:14px;
+    background:white;
+}
+
+.sum-box{
+    background:#EEF2F7;
+    border-radius:12px;
+    text-align:center;
+    padding:10px 4px;
+    font-weight:700;
+    font-size:14px;
+    white-space:nowrap;
+}
+
+.btn-add{
+    width:100%;
+    border:none;
+    border-radius:14px;
+    margin-top:15px;
+    padding:14px;
+    background:var(--primary);
+    color:white;
+    font-weight:700;
+    font-size:16px;
+}
+
+.btn-delete{
+    width:32px;
+    height:32px;
+    border:none;
+    border-radius:10px;
+    background:var(--danger);
+    color:white;
+    font-size:14px;
+    padding:0;
+}
+
+.result{
+    background:var(--primary);
+    color:white;
+    text-align:center;
+    border-radius:22px;
+    padding:20px;
+    margin-bottom:15px;
+}
+
+.result-value{
+    font-size:34px;
+    font-weight:800;
+}
+
+.footer{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:8px;
+}
+
+.footer button{
+    border:none;
+    background:var(--primary);
+    color:white;
+    border-radius:12px;
+    padding:10px 6px;
+    font-size:11px;
+    font-weight:700;
+}
+
+@media(max-width:430px){
+
+    .table-header,
+    .row{
+        grid-template-columns:80px 50px 60px 70px 30px;
+    }
+
+    h1{
+        font-size:34px;
+    }
+
+    .section h2{
+        font-size:20px;
+    }
+
+    .stat-value{
+        font-size:16px;
+    }
+
+    .result-value{
+        font-size:28px;
+    }
+}
