@@ -1,113 +1,69 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Kellerabrechnung</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kellerabrechnung</title>
 
-<style>
-body{
-    font-family:Arial,sans-serif;
-    background:#f4f6f8;
-    margin:0;
-    padding:20px;
-}
-.container{
-    max-width:900px;
-    margin:auto;
-}
-.card{
-    background:white;
-    padding:15px;
-    border-radius:10px;
-    margin-bottom:15px;
-    box-shadow:0 2px 5px rgba(0,0,0,.1);
-}
-h1{
-    text-align:center;
-}
-button{
-    padding:10px 15px;
-    border:none;
-    border-radius:8px;
-    background:#2f6fed;
-    color:white;
-}
-input{
-    padding:8px;
-}
-</style>
-</head>
-
-<body>
+    <linkest.json
+    <link rel="stylesheet"dy>
 
 <div class="container">
 
-<h1>🍺 Kellerabrechnung</h1>
+    <h1>🍺 Kellerabrechnung</h1>
 
-<div class="card">
+    <div class="card">
 
-<button onclick="addDrink()">+ Getränk</button>
-<button onclick="addDeduction()">+ Abzug</button>
+        <h2>Getränke</h2>
+
+        <div id="drinkList"></div>
+
+        <button onclick="addDrink()">
+            + Getränk
+        </button>
+
+    </div>
+
+    <div class="card">
+
+        <h2>Abzüge</h2>
+
+        <div id="deductionList"></div>
+
+        <button onclick="addDeduction()">
+            + Abzug
+        </button>
+
+    </div>
+
+    <div class="card">
+
+        <label>
+            Provision %
+        </label>
+
+        <input
+            id="provision"
+            type="number"
+            value="10"
+            onchange="calculate()">
+
+    </div>
+
+    <div class="card result">
+
+        <div id="output"></div>
+
+    </div>
 
 </div>
 
-<div class="card">
-
-Provision %
-
-<input
-id="provision"
-type="number"
-value="10"
-oninput="calculate()">
-
-</div>
-
-<div class="card" id="output">
-
-Bereit
-
-</div>
-
-</div>
+app.jsscript>
 
 <script>
-
-let umsatz = 0;
-let abzuege = 0;
-
-function addDrink(){
-    umsatz += 10;
-    calculate();
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('service-worker.js');
 }
-
-function addDeduction(){
-    abzuege += 5;
-    calculate();
-}
-
-function calculate(){
-
-    let provision =
-       umsatz *
-       document.getElementById("provision").value / 100;
-
-    let auszahlung =
-        umsatz -
-        provision -
-        abzuege;
-
-    document.getElementById("output").innerHTML =
-    `
-    Umsatz: ${umsatz.toFixed(2)} €<br>
-    Provision: ${provision.toFixed(2)} €<br>
-    Abzüge: ${abzuege.toFixed(2)} €<br>
-    <hr>
-    Auszahlung: ${auszahlung.toFixed(2)} €
-    `;
-}
-
 </script>
 
 </body>
