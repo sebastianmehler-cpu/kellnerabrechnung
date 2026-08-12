@@ -1,22 +1,52 @@
-const CACHE_NAME = "keller-v1";
+body{
+    margin:0;
+    font-family:Arial;
+    background:#f4f6f8;
+}
 
-const urlsToCache = [
-  "/",
-  "/index.html",
-  "/style.css",
-  "/app.js"
-];
+.container{
+    max-width:900px;
+    margin:auto;
+    padding:20px;
+}
 
-self.addEventListener("install", event => {
-  event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => cache.addAll(urlsToCache))
-  );
-});
+h1{
+    text-align:center;
+}
 
-self.addEventListener("fetch", event => {
-  event.respondWith(
-    caches.match(event.request)
-      .then(response => response || fetch(event.request))
-  );
-});
+.card{
+    background:white;
+    padding:15px;
+    margin-bottom:15px;
+    border-radius:12px;
+    box-shadow:0 2px 8px rgba(0,0,0,.1);
+}
+
+.row{
+    display:grid;
+    grid-template-columns:2fr 1fr 1fr auto;
+    gap:10px;
+    margin-bottom:10px;
+}
+
+input{
+    padding:10px;
+}
+
+button{
+    padding:10px 15px;
+    border:none;
+    border-radius:8px;
+    background:#2f6fed;
+    color:white;
+    cursor:pointer;
+}
+
+.delete{
+    background:#d63031;
+}
+
+.result{
+    font-size:22px;
+}
+``
