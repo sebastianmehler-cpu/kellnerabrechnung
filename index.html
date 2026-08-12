@@ -9,203 +9,204 @@
 <style>
 
 :root{
-    --primary:#1F4E79;
-    --danger:#dc3545;
-    --bg:#f4f7fb;
-}
-
-*{
-    box-sizing:border-box;
+--primary:#1F4E79;
+--danger:#dc3545;
+--bg:#f4f7fb;
 }
 
 body{
-    margin:0;
-    font-family:-apple-system,BlinkMacSystemFont,Arial,sans-serif;
-    background:var(--bg);
+margin:0;
+font-family:-apple-system,Arial,sans-serif;
+background:var(--bg);
+padding:15px;
 }
 
 .container{
-    max-width:1200px;
-    margin:auto;
-    padding:15px;
+max-width:1200px;
+margin:auto;
 }
 
-.header{
-    text-align:center;
-    margin-bottom:20px;
+h1{
+text-align:center;
+color:var(--primary);
 }
 
-.header h1{
-    color:var(--primary);
+.subtitle{
+text-align:center;
+color:#666;
+margin-bottom:20px;
 }
 
 .dashboard{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-    gap:15px;
-    margin-bottom:20px;
-}
-
-.stat{
-    background:white;
-    border-radius:16px;
-    padding:20px;
-    text-align:center;
-    box-shadow:0 3px 10px rgba(0,0,0,.08);
-}
-
-.statTitle{
-    color:#666;
-    margin-bottom:10px;
-}
-
-.statValue{
-    font-size:28px;
-    font-weight:bold;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:15px;
+margin-bottom:20px;
 }
 
 .card{
-    background:white;
-    border-radius:16px;
-    padding:15px;
-    margin-bottom:20px;
-    box-shadow:0 3px 10px rgba(0,0,0,.08);
+background:white;
+border-radius:15px;
+padding:15px;
+box-shadow:0 2px 8px rgba(0,0,0,.08);
 }
 
-.tableHeader,
+.stat{
+text-align:center;
+}
+
+.stat-title{
+font-size:18px;
+color:#555;
+}
+
+.stat-value{
+font-size:30px;
+font-weight:bold;
+margin-top:8px;
+}
+
+.section{
+background:white;
+padding:15px;
+border-radius:15px;
+margin-bottom:20px;
+box-shadow:0 2px 8px rgba(0,0,0,.08);
+}
+
+.section h2{
+color:var(--primary);
+margin-top:0;
+}
+
+.table-header,
 .row{
-    display:grid;
-    grid-template-columns:2fr 100px 120px 120px 60px;
-    gap:8px;
-    align-items:center;
-    margin-bottom:8px;
+display:grid;
+grid-template-columns:2fr 100px 120px 120px 60px;
+gap:10px;
+align-items:center;
+margin-bottom:8px;
 }
 
-.tableHeader{
-    font-weight:bold;
-    border-bottom:1px solid #ddd;
-    padding-bottom:10px;
-    color:#444;
+.table-header{
+font-weight:bold;
+padding-bottom:8px;
+border-bottom:1px solid #ddd;
 }
 
 input{
-    width:100%;
-    padding:10px;
-    border:1px solid #ccc;
-    border-radius:8px;
+width:100%;
+padding:10px;
+border:1px solid #ccc;
+border-radius:8px;
 }
 
-.currency{
-    position:relative;
+.sum-box{
+background:#f0f3f7;
+padding:10px;
+border-radius:8px;
+text-align:right;
+font-weight:bold;
 }
 
-.currency:after{
-    content:"€";
-    position:absolute;
-    right:12px;
-    top:50%;
-    transform:translateY(-50%);
-    color:#666;
-    pointer-events:none;
+.btn-add{
+width:100%;
+padding:12px;
+background:var(--primary);
+color:white;
+border:none;
+border-radius:10px;
+font-weight:bold;
+cursor:pointer;
+margin-top:10px;
 }
 
-.currency input{
-    padding-right:25px;
-}
-
-button{
-    border:none;
-    border-radius:10px;
-    padding:12px;
-    cursor:pointer;
-}
-
-.btnAdd{
-    width:100%;
-    background:#1F4E79;
-    color:white;
-    font-weight:bold;
-}
-
-.btnDelete{
-    background:#dc3545;
-    color:white;
+.btn-delete{
+background:var(--danger);
+color:white;
+border:none;
+border-radius:10px;
+cursor:pointer;
+height:42px;
 }
 
 .result{
-    background:#1F4E79;
-    color:white;
-    text-align:center;
-    padding:20px;
-    border-radius:16px;
+background:var(--primary);
+color:white;
+text-align:center;
+padding:20px;
+border-radius:15px;
 }
 
-.resultValue{
-    font-size:36px;
-    font-weight:bold;
+.result-big{
+font-size:36px;
+font-weight:bold;
 }
 
 .footer{
-    display:flex;
-    gap:10px;
+display:flex;
+gap:10px;
 }
 
 .footer button{
-    flex:1;
-    background:#1F4E79;
-    color:white;
+flex:1;
+padding:12px;
+background:var(--primary);
+color:white;
+border:none;
+border-radius:10px;
+font-weight:bold;
 }
 
-@media(max-width:700px){
+@media(max-width:750px){
 
-.tableHeader{
-    display:none;
+.table-header{
+display:none;
 }
 
 .row{
-    grid-template-columns:1fr;
-    border-bottom:1px solid #eee;
-    padding-bottom:10px;
+grid-template-columns:1fr;
+padding-bottom:15px;
+border-bottom:1px solid #eee;
 }
 
 }
 
 </style>
 </head>
-
 <body>
 
 <div class="container">
 
-<div class="header">
 <h1>🍺 Kellerabrechnung</h1>
-<p>Vereinskasse & Tagesabrechnung</p>
+<div class="subtitle">
+Vereinskasse & Tagesabrechnung
 </div>
 
 <div class="dashboard">
 
-<div class="stat">
-<div class="statTitle">💰 Umsatz</div>
-<div id="umsatzCard" class="statValue">0.00 €</div>
+<div class="card stat">
+<div class="stat-title">💰 Umsatz</div>
+<div class="stat-value" id="umsatzCard">0,00 €</div>
 </div>
 
-<div class="stat">
-<div class="statTitle">🎫 Provision</div>
-<div id="provisionCard" class="statValue">0.00 €</div>
+<div class="card stat">
+<div class="stat-title">🎫 Provision</div>
+<div class="stat-value" id="provCard">0,00 €</div>
 </div>
 
-<div class="stat">
-<div class="statTitle">➖ Abzüge</div>
-<div id="abzugCard" class="statValue">0.00 €</div>
+<div class="card stat">
+<div class="stat-title">➖ Abzüge</div>
+<div class="stat-value" id="abzugCard">0,00 €</div>
 </div>
 
 </div>
 
-<div class="card">
+<div class="section">
 
 <h2>🍺 Getränke</h2>
 
-<div class="tableHeader">
+<div class="table-header">
 <div>Getränk</div>
 <div>Anzahl</div>
 <div>Preis (€)</div>
@@ -215,17 +216,17 @@ button{
 
 <div id="drinkList"></div>
 
-<button class="btnAdd" onclick="addDrink()">
+<button class="btn-add" onclick="addDrink()">
 + Getränk hinzufügen
 </button>
 
 </div>
 
-<div class="card">
+<div class="section">
 
 <h2>🎫 Abzüge</h2>
 
-<div class="tableHeader">
+<div class="table-header">
 <div>Abzug</div>
 <div>Anzahl</div>
 <div>Wert (€)</div>
@@ -235,13 +236,13 @@ button{
 
 <div id="deductionList"></div>
 
-<button class="btnAdd" onclick="addDeduction()">
+<button class="btn-add" onclick="addDeduction()">
 + Abzug hinzufügen
 </button>
 
 </div>
 
-<div class="card">
+<div class="section">
 
 <h2>⚙️ Provision (%)</h2>
 
@@ -255,8 +256,8 @@ oninput="calculate()">
 
 <div class="result">
 <div>💵 Auszahlung</div>
-<div id="auszahlung" class="resultValue">
-0.00 €
+<div class="result-big" id="auszahlung">
+0,00 €
 </div>
 </div>
 
@@ -272,19 +273,94 @@ oninput="calculate()">
 <script>
 
 let drinks = [
-{name:"Bier",qty:0,price:0},
-{name:"Weizen",qty:0,price:0},
-{name:"Cola",qty:0,price:0}
+{name:'Bier',qty:0,price:0},
+{name:'Weizen',qty:0,price:0},
+{name:'Cola',qty:0,price:0}
 ];
 
 let deductions = [
-{name:"Gutscheine",qty:0,price:0}
+{name:'Gutscheine',qty:0,price:0}
 ];
+
+function render(){
+
+const drinkList=document.getElementById('drinkList');
+drinkList.innerHTML='';
+
+drinks.forEach((d,index)=>{
+
+const row=document.createElement('div');
+row.className='row';
+
+row.innerHTML=`
+<input value="${d.name}"
+oninput="drinks[${index}].name=this.value">
+
+<input type="number"
+value="${d.qty}"
+oninput="drinks[${index}].qty=Number(this.value);calculate()">
+
+<input type="number"
+step="0.01"
+value="${d.price}"
+oninput="drinks[${index}].price=Number(this.value);calculate()">
+
+<div class="sum-box" id="drinkSum${index}">
+0.00 €
+</div>
+
+<button class="btn-delete"
+onclick="deleteDrink(${index})">
+🗑
+</button>
+`;
+
+drinkList.appendChild(row);
+
+});
+
+const deductionList=document.getElementById('deductionList');
+deductionList.innerHTML='';
+
+deductions.forEach((d,index)=>{
+
+const row=document.createElement('div');
+row.className='row';
+
+row.innerHTML=`
+<input value="${d.name}"
+oninput="deductions[${index}].name=this.value">
+
+<input type="number"
+value="${d.qty}"
+oninput="deductions[${index}].qty=Number(this.value);calculate()">
+
+<input type="number"
+step="0.01"
+value="${d.price}"
+oninput="deductions[${index}].price=Number(this.value);calculate()">
+
+<div class="sum-box" id="deductionSum${index}">
+0.00 €
+</div>
+
+<button class="btn-delete"
+onclick="deleteDeduction(${index})">
+🗑
+</button>
+`;
+
+deductionList.appendChild(row);
+
+});
+
+calculate();
+}
 
 function addDrink(){
 
 drinks.push({
-name:"Neues Getränk",
+name:'Neues Getränk',
 qty:0,
 price:0
 });
@@ -295,7 +371,7 @@ render();
 function addDeduction(){
 
 deductions.push({
-name:"Neuer Abzug",
+name:'Neuer Abzug',
 qty:0,
 price:0
 });
@@ -303,107 +379,14 @@ price:0
 render();
 }
 
-function saveData(){
-
-localStorage.setItem(
-"drinks",
-JSON.stringify(drinks)
-);
-
-localStorage.setItem(
-"deductions",
-JSON.stringify(deductions)
-);
-
-alert("✅ Abrechnung gespeichert");
+function deleteDrink(index){
+drinks.splice(index,1);
+render();
 }
 
-function render(){
-
-let drinkHTML="";
-
-drinks.forEach((d,i)=>{
-
-drinkHTML += `
-
-<div class="row">
-
-<input
-value="${d.name}"
-onchange="drinks[${i}].name=this.value">
-
-<input
-type="number"
-value="${d.qty}"
-onchange="drinks[${i}].qty=parseFloat(this.value)||0;calculate()">
-
-<div class="currency">
-<input
-type="number"
-step="0.01"
-value="${d.price}"
-onchange="drinks[${i}].price=parseFloat(this.value)||0;calculate()">
-</div>
-
-<div>
-<strong>${(d.qty*d.price).toFixed(2)} €</strong>
-</div>
-
-<button
-class="btnDelete"
-onclick="drinks.splice(${i},1);render()">
-🗑
-</button>
-
-</div>
-`;
-});
-
-document.getElementById("drinkList").innerHTML=drinkHTML;
-
-let deductionHTML="";
-
-deductions.forEach((d,i)=>{
-
-deductionHTML += `
-
-<div class="row">
-
-<input
-value="${d.name}"
-onchange="deductions[${i}].name=this.value">
-
-<input
-type="number"
-value="${d.qty}"
-onchange="deductions[${i}].qty=parseFloat(this.value)||0;calculate()">
-
-<div class="currency">
-<input
-type="number"
-step="0.01"
-value="${d.price}"
-onchange="deductions[${i}].price=parseFloat(this.value)||0;calculate()">
-</div>
-
-<div>
-<strong>${(d.qty*d.price).toFixed(2)} €</strong>
-</div>
-
-<button
-class="btnDelete"
-onclick="deductions.splice(${i},1);render()">
-🗑
-</button>
-
-</div>
-
-`;
-});
-
-document.getElementById("deductionList").innerHTML=deductionHTML;
-
-calculate();
+function deleteDeduction(index){
+deductions.splice(index,1);
+render();
 }
 
 function calculate(){
@@ -411,34 +394,68 @@ function calculate(){
 let revenue=0;
 let deductionTotal=0;
 
-drinks.forEach(d=>{
-revenue += d.qty*d.price;
+drinks.forEach((d,index)=>{
+
+const sum=d.qty*d.price;
+revenue+=sum;
+
+const field=document.getElementById('drinkSum'+index);
+
+if(field){
+field.innerHTML=sum.toFixed(2)+' €';
+}
+
 });
 
-deductions.forEach(d=>{
-deductionTotal += d.qty*d.price;
+deductions.forEach((d,index)=>{
+
+const sum=d.qty*d.price;
+deductionTotal+=sum;
+
+const field=document.getElementById('deductionSum'+index);
+
+if(field){
+field.innerHTML=sum.toFixed(2)+' €';
+}
+
 });
 
-const provisionRate =
-Number(document.getElementById("provision").value) || 0;
+const provisionRate=
+Number(document.getElementById('provision').value)||0;
 
-const provision =
-revenue * provisionRate / 100;
+const provision=
+revenue*provisionRate/100;
 
-const payout =
-revenue - provision - deductionTotal;
+const payout=
+revenue-provision-deductionTotal;
 
-document.getElementById("umsatzCard").innerText =
-revenue.toFixed(2) + " €";
+document.getElementById('umsatzCard').innerHTML=
+revenue.toFixed(2)+' €';
 
-document.getElementById("provisionCard").innerText =
-provision.toFixed(2) + " €";
+document.getElementById('provCard').innerHTML=
+provision.toFixed(2)+' €';
 
-document.getElementById("abzugCard").innerText =
-deductionTotal.toFixed(2) + " €";
+document.getElementById('abzugCard').innerHTML=
+deductionTotal.toFixed(2)+' €';
 
-document.getElementById("auszahlung").innerText =
-payout.toFixed(2) + " €";
+document.getElementById('auszahlung').innerHTML=
+payout.toFixed(2)+' €';
+
+}
+
+function saveData(){
+
+localStorage.setItem(
+'drinks',
+JSON.stringify(drinks)
+);
+
+localStorage.setItem(
+'deductions',
+JSON.stringify(deductions)
+);
+
+alert('✅ Abrechnung gespeichert');
 }
 
 render();
