@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport"
+content="width=device-width, initial-scale=1">
+
+<title>Kellerabrechnung</title>
+
+<link rel="manifest" href="manifest.json">
+1>Kellerabrechnung</h1>
+
+<div class="card">
+
+<button onclick="addDrink()">
++ Getränk
+</button>
+
+<button onclick="addDeduction()">
++ Abzug
+</button>
+
+</div>
+
+<div class="card">
+
+Provision %
+
+<input
+id="provision"
+value="10"
+type="number"
+oninput="calculate()">
+
+</div>
+
+<div
+class="card total"
+id="result">
+Bereit
+</div>
+
+app.jsscript>
+
+<script>
+
+if ('serviceWorker' in navigator) {
+ navigator.serviceWorker.register(
+ 'service-worker.js'
+ );
+}
+
+</script>
+
+</body>
+</html>
