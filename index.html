@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 <title>kellnerabrechnung</title>
 
@@ -479,7 +479,10 @@ localStorage.setItem(
 JSON.stringify(deductions)
 );
 
-alert("✅ Konfiguration gespeichert");
+document.getElementById(
+"saveStatus"
+).innerHTML =
+"✅ Konfiguration gespeichert";
 }
 
 function saveData(){
@@ -494,7 +497,10 @@ deductions.forEach(d=>d.qty=0);
 
 render();
 
-alert("✅ Neue Abrechnung");
+document.getElementById(
+"saveStatus"
+).innerHTML =
+"✅ Neue Abrechnung erstellt";
 }
 
 render();
