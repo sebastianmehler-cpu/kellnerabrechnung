@@ -1,9 +1,39 @@
 :root{
     --primary:#1F4E79;
+    --primary-light:#2E6AA5;
     --danger:#DC3545;
-    --bg:#F3F5F9;
+
+    --bg:#F4F6F9;
     --card:#FFFFFF;
     --border:#E5E7EB;
+
+    --text:#111827;
+    --text-light:#6B7280;
+
+    --shadow:0 4px 12px rgba(0,0,0,.08);
+}
+
+/* DARK MODE */
+
+@media (prefers-color-scheme: dark){
+
+:root{
+
+    --primary:#4F9CF9;
+    --primary-light:#63A8FF;
+
+    --danger:#FF6B6B;
+
+    --bg:#111827;
+    --card:#1F2937;
+    --border:#374151;
+
+    --text:#F9FAFB;
+    --text-light:#D1D5DB;
+
+    --shadow:0 4px 12px rgba(0,0,0,.35);
+}
+
 }
 
 *{
@@ -14,27 +44,35 @@ body{
     margin:0;
     padding:12px;
     background:var(--bg);
-    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
 }
+
+/* CONTAINER */
 
 .container{
     max-width:500px;
     margin:auto;
 }
 
+/* HEADER */
+
 h1{
     text-align:center;
     color:var(--primary);
-    margin-bottom:5px;
-    font-size:42px;
+    margin:10px 0 4px 0;
+    font-size:48px;
+    font-weight:800;
 }
 
 .subtitle{
     text-align:center;
-    color:#666;
-    margin-bottom:20px;
-    font-size:16px;
+    color:var(--text-light);
+    margin-bottom:24px;
+    font-size:18px;
 }
+
+/* DASHBOARD */
 
 .dashboard{
     display:grid;
@@ -44,45 +82,49 @@ h1{
 }
 
 .stat{
-    background:white;
-    border-radius:18px;
-    padding:15px 10px;
+    background:var(--card);
+    border-radius:20px;
+    padding:16px 10px;
     text-align:center;
-    box-shadow:0 4px 12px rgba(0,0,0,.05);
+    box-shadow:var(--shadow);
 }
 
 .stat-title{
+    color:var(--text-light);
     font-size:13px;
-    color:#666;
-    margin-bottom:6px;
+    margin-bottom:8px;
 }
 
 .stat-value{
-    font-size:18px;
+    font-size:20px;
     font-weight:700;
 }
 
+/* KARTEN */
+
 .section{
-    background:white;
-    border-radius:22px;
-    padding:16px;
+    background:var(--card);
+    border-radius:24px;
+    padding:18px;
     margin-bottom:18px;
-    box-shadow:0 4px 12px rgba(0,0,0,.05);
+    box-shadow:var(--shadow);
 }
 
 .section h2{
     color:var(--primary);
     margin-top:0;
     margin-bottom:15px;
-    font-size:24px;
+    font-size:28px;
 }
+
+/* TABELLE */
 
 .table-header{
     display:grid;
-    grid-template-columns:90px 55px 65px 75px 32px;
-    gap:5px;
-    align-items:center;
-    padding-bottom:8px;
+    grid-template-columns:78px 50px 62px 72px 30px;
+    gap:4px;
+    padding-bottom:10px;
+    margin-bottom:10px;
     border-bottom:1px solid var(--border);
     font-size:12px;
     font-weight:700;
@@ -90,67 +132,92 @@ h1{
 
 .row{
     display:grid;
-    grid-template-columns:90px 55px 65px 75px 32px;
-    gap:5px;
+    grid-template-columns:78px 50px 62px 72px 30px;
+    gap:4px;
     align-items:center;
-    margin-top:10px;
+    margin-bottom:10px;
 }
+
+/* INPUTS */
 
 input{
     width:100%;
     padding:10px 6px;
-    border:1px solid #D1D5DB;
-    border-radius:12px;
+    border:1px solid var(--border);
+    background:var(--card);
+    color:var(--text);
+    border-radius:14px;
     font-size:14px;
-    background:white;
 }
+
+/* SUMMEN */
 
 .sum-box{
     background:#EEF2F7;
-    border-radius:12px;
+    color:#111827;
+    border-radius:14px;
     text-align:center;
     padding:10px 4px;
+    font-size:13px;
     font-weight:700;
-    font-size:14px;
     white-space:nowrap;
 }
+
+@media (prefers-color-scheme: dark){
+
+.sum-box{
+    background:#374151;
+    color:white;
+}
+
+}
+
+/* BUTTONS */
 
 .btn-add{
     width:100%;
     border:none;
-    border-radius:14px;
+    border-radius:16px;
     margin-top:15px;
     padding:14px;
     background:var(--primary);
     color:white;
-    font-weight:700;
     font-size:16px;
+    font-weight:700;
+}
+
+.btn-add:hover{
+    background:var(--primary-light);
 }
 
 .btn-delete{
-    width:32px;
-    height:32px;
+    width:30px;
+    height:30px;
     border:none;
     border-radius:10px;
     background:var(--danger);
     color:white;
-    font-size:14px;
+    font-size:13px;
     padding:0;
 }
+
+/* AUSZAHLUNG */
 
 .result{
     background:var(--primary);
     color:white;
     text-align:center;
-    border-radius:22px;
-    padding:20px;
+    border-radius:24px;
+    padding:24px;
     margin-bottom:15px;
 }
 
 .result-value{
-    font-size:34px;
+    font-size:38px;
     font-weight:800;
 }
+
+/* FOOTER */
 
 .footer{
     display:grid;
@@ -160,34 +227,52 @@ input{
 
 .footer button{
     border:none;
+    border-radius:14px;
     background:var(--primary);
     color:white;
-    border-radius:12px;
-    padding:10px 6px;
+    padding:12px 6px;
     font-size:11px;
     font-weight:700;
 }
 
+/* iPHONE */
+
 @media(max-width:430px){
 
-    .table-header,
-    .row{
-        grid-template-columns:80px 50px 60px 70px 30px;
-    }
-
     h1{
-        font-size:34px;
+        font-size:40px;
     }
 
     .section h2{
-        font-size:20px;
+        font-size:24px;
+    }
+
+    .table-header,
+    .row{
+        grid-template-columns:70px 45px 58px 68px 28px;
+        gap:3px;
+    }
+
+    input{
+        padding:8px 4px;
+        font-size:13px;
+    }
+
+    .btn-delete{
+        width:28px;
+        height:28px;
+    }
+
+    .sum-box{
+        font-size:12px;
     }
 
     .stat-value{
-        font-size:16px;
+        font-size:18px;
     }
 
     .result-value{
-        font-size:28px;
+        font-size:30px;
     }
 }
+`
