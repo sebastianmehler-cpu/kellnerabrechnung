@@ -1,18 +1,24 @@
 :root{
     --primary:#1F4E79;
-    --danger:#dc3545;
-    --bg:#f4f7fb;
+    --danger:#DC3545;
+    --bg:#F3F5F9;
+    --card:#FFFFFF;
+    --border:#E5E7EB;
+}
+
+*{
+    box-sizing:border-box;
 }
 
 body{
     margin:0;
-    padding:10px;
+    padding:12px;
     background:var(--bg);
-    font-family:-apple-system,Arial,sans-serif;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
 }
 
 .container{
-    max-width:1000px;
+    max-width:500px;
     margin:auto;
 }
 
@@ -20,110 +26,115 @@ h1{
     text-align:center;
     color:var(--primary);
     margin-bottom:5px;
+    font-size:42px;
 }
 
 .subtitle{
     text-align:center;
     color:#666;
     margin-bottom:20px;
+    font-size:16px;
 }
 
 .dashboard{
     display:grid;
     grid-template-columns:repeat(3,1fr);
-    gap:8px;
-    margin-bottom:15px;
+    gap:10px;
+    margin-bottom:20px;
 }
 
 .stat{
     background:white;
-    border-radius:15px;
-    padding:12px;
+    border-radius:18px;
+    padding:15px 10px;
     text-align:center;
-    box-shadow:0 2px 8px rgba(0,0,0,.08);
+    box-shadow:0 4px 12px rgba(0,0,0,.05);
 }
 
 .stat-title{
     font-size:13px;
     color:#666;
+    margin-bottom:6px;
 }
 
 .stat-value{
-    font-size:20px;
-    font-weight:bold;
-    margin-top:6px;
+    font-size:18px;
+    font-weight:700;
 }
 
 .section{
     background:white;
-    border-radius:15px;
-    padding:12px;
-    margin-bottom:15px;
-    box-shadow:0 2px 8px rgba(0,0,0,.08);
+    border-radius:22px;
+    padding:16px;
+    margin-bottom:18px;
+    box-shadow:0 4px 12px rgba(0,0,0,.05);
 }
 
 .section h2{
     color:var(--primary);
     margin-top:0;
-    margin-bottom:10px;
-}
-
-/* DIESE ZEILE IST DER WICHTIGE TEIL */
-.table-header,
-.row{
-    display:grid;
-    grid-template-columns:90px 55px 75px 80px 35px;
-    gap:4px;
-    align-items:center;
+    margin-bottom:15px;
+    font-size:24px;
 }
 
 .table-header{
-    font-weight:bold;
-    border-bottom:1px solid #ddd;
-    margin-bottom:10px;
-    padding-bottom:5px;
+    display:grid;
+    grid-template-columns:90px 55px 65px 75px 32px;
+    gap:5px;
+    align-items:center;
+    padding-bottom:8px;
+    border-bottom:1px solid var(--border);
     font-size:12px;
+    font-weight:700;
 }
 
 .row{
-    margin-bottom:8px;
+    display:grid;
+    grid-template-columns:90px 55px 65px 75px 32px;
+    gap:5px;
+    align-items:center;
+    margin-top:10px;
 }
 
 input{
     width:100%;
-    padding:8px;
-    border:1px solid #ccc;
-    border-radius:8px;
+    padding:10px 6px;
+    border:1px solid #D1D5DB;
+    border-radius:12px;
     font-size:14px;
+    background:white;
 }
 
 .sum-box{
-    text-align:right;
-    background:#eef2f5;
-    border-radius:8px;
-    padding:8px 4px;
-    font-weight:bold;
-    font-size:13px;
+    background:#EEF2F7;
+    border-radius:12px;
+    text-align:center;
+    padding:10px 4px;
+    font-weight:700;
+    font-size:14px;
+    white-space:nowrap;
 }
 
 .btn-add{
     width:100%;
-    padding:12px;
     border:none;
-    border-radius:10px;
+    border-radius:14px;
+    margin-top:15px;
+    padding:14px;
     background:var(--primary);
     color:white;
-    margin-top:10px;
-    font-weight:bold;
+    font-weight:700;
+    font-size:16px;
 }
 
 .btn-delete{
+    width:32px;
+    height:32px;
+    border:none;
+    border-radius:10px;
     background:var(--danger);
     color:white;
-    border:none;
-    border-radius:8px;
-    height:38px;
-    width:35px;
+    font-size:14px;
     padding:0;
 }
 
@@ -131,56 +142,49 @@ input{
     background:var(--primary);
     color:white;
     text-align:center;
-    border-radius:15px;
+    border-radius:22px;
     padding:20px;
+    margin-bottom:15px;
 }
 
 .result-value{
-    font-size:32px;
-    font-weight:bold;
+    font-size:34px;
+    font-weight:800;
 }
 
 .footer{
     display:grid;
     grid-template-columns:repeat(4,1fr);
-    gap:6px;
-    margin-top:15px;
+    gap:8px;
 }
 
 .footer button{
-    padding:10px;
     border:none;
-    border-radius:10px;
     background:var(--primary);
     color:white;
+    border-radius:12px;
+    padding:10px 6px;
     font-size:11px;
-    font-weight:bold;
+    font-weight:700;
 }
 
 @media(max-width:430px){
 
     .table-header,
     .row{
-        grid-template-columns:80px 50px 70px 75px 30px;
-        gap:3px;
+        grid-template-columns:80px 50px 60px 70px 30px;
     }
 
-    input{
-        padding:6px;
-        font-size:13px;
+    h1{
+        font-size:34px;
     }
 
-    .sum-box{
-        font-size:12px;
-    }
-
-    .btn-delete{
-        width:30px;
-        height:35px;
+    .section h2{
+        font-size:20px;
     }
 
     .stat-value{
-        font-size:18px;
+        font-size:16px;
     }
 
     .result-value{
