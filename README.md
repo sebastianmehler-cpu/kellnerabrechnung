@@ -1,193 +1,300 @@
-:root{
-    --primary:#1F4E79;
-    --danger:#DC3545;
-    --bg:#F3F5F9;
-    --card:#FFFFFF;
-    --border:#E5E7EB;
-}
+# 🍺 Kellerabrechnung
 
-*{
-    box-sizing:border-box;
-}
+Moderne Web-App für Vereinskasse, Kellerabrechnung und Veranstaltungen.
 
-body{
-    margin:0;
-    padding:12px;
-    background:var(--bg);
-    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-}
+Optimiert für:
 
-.container{
-    max-width:500px;
-    margin:auto;
-}
+- 📱 iPhone
+- 🤖 Android
+- 💻 PC
+- 🌐 GitHub Pages
 
-h1{
-    text-align:center;
-    color:var(--primary);
-    margin-bottom:5px;
-    font-size:42px;
-}
+---
 
-.subtitle{
-    text-align:center;
-    color:#666;
-    margin-bottom:20px;
-    font-size:16px;
-}
+# Projektstatus
 
-.dashboard{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:10px;
-    margin-bottom:20px;
-}
+## Aktuelle Version
 
-.stat{
-    background:white;
-    border-radius:18px;
-    padding:15px 10px;
-    text-align:center;
-    box-shadow:0 4px 12px rgba(0,0,0,.05);
-}
+### Version 1.1
 
-.stat-title{
-    font-size:13px;
-    color:#666;
-    margin-bottom:6px;
-}
+✅ Dashboard
 
-.stat-value{
-    font-size:18px;
-    font-weight:700;
-}
+✅ Getränkeverwaltung
 
-.section{
-    background:white;
-    border-radius:22px;
-    padding:16px;
-    margin-bottom:18px;
-    box-shadow:0 4px 12px rgba(0,0,0,.05);
-}
+✅ Abzugsverwaltung
 
-.section h2{
-    color:var(--primary);
-    margin-top:0;
-    margin-bottom:15px;
-    font-size:24px;
-}
+✅ Provisionsermittlung
 
-.table-header{
-    display:grid;
-    grid-template-columns:90px 55px 65px 75px 32px;
-    gap:5px;
-    align-items:center;
-    padding-bottom:8px;
-    border-bottom:1px solid var(--border);
-    font-size:12px;
-    font-weight:700;
-}
+✅ Auszahlungsermittlung
 
-.row{
-    display:grid;
-    grid-template-columns:90px 55px 65px 75px 32px;
-    gap:5px;
-    align-items:center;
-    margin-top:10px;
-}
+✅ PDF-Druck
 
-input{
-    width:100%;
-    padding:10px 6px;
-    border:1px solid #D1D5DB;
-    border-radius:12px;
-    font-size:14px;
-    background:white;
-}
+✅ Konfigurationsspeicherung
 
-.sum-box{
-    background:#EEF2F7;
-    border-radius:12px;
-    text-align:center;
-    padding:10px 4px;
-    font-weight:700;
-    font-size:14px;
-    white-space:nowrap;
-}
+✅ Neue Abrechnung
 
-.btn-add{
-    width:100%;
-    border:none;
-    border-radius:14px;
-    margin-top:15px;
-    padding:14px;
-    background:var(--primary);
-    color:white;
-    font-weight:700;
-    font-size:16px;
-}
+✅ Responsive iPhone-Ansicht
 
-.btn-delete{
-    width:32px;
-    height:32px;
-    border:none;
-    border-radius:10px;
-    background:var(--danger);
-    color:white;
-    font-size:14px;
-    padding:0;
-}
+---
 
-.result{
-    background:var(--primary);
-    color:white;
-    text-align:center;
-    border-radius:22px;
-    padding:20px;
-    margin-bottom:15px;
-}
+# Funktionen
 
-.result-value{
-    font-size:34px;
-    font-weight:800;
-}
+## Dashboard
 
-.footer{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:8px;
-}
+Anzeige von:
 
-.footer button{
-    border:none;
-    background:var(--primary);
-    color:white;
-    border-radius:12px;
-    padding:10px 6px;
-    font-size:11px;
-    font-weight:700;
-}
+- 💰 Umsatz
+- 🎫 Provision
+- ➖ Abzüge
+- 💵 Auszahlung
 
-@media(max-width:430px){
+---
 
-    .table-header,
-    .row{
-        grid-template-columns:80px 50px 60px 70px 30px;
-    }
+## Getränke
 
-    h1{
-        font-size:34px;
-    }
+Für jedes Getränk:
 
-    .section h2{
-        font-size:20px;
-    }
+- Name
+- Anzahl
+- Preis
+- Summe
 
-    .stat-value{
-        font-size:16px;
-    }
+Funktionen:
 
-    .result-value{
-        font-size:28px;
-    }
-}
+- Getränk hinzufügen
+- Getränk löschen
+- Preis ändern
+- Name ändern
+
+---
+
+## Abzüge
+
+Für jeden Abzug:
+
+- Name
+- Anzahl
+- Wert
+- Summe
+
+Funktionen:
+
+- Abzug hinzufügen
+- Abzug löschen
+- Wert ändern
+- Name ändern
+
+---
+
+## Provision
+
+Berechnung:
+
+```text
+Provision = Umsatz × Prozent
+```
+
+Auszahlung:
+
+```text
+Auszahlung =
+Umsatz
+- Provision
+- Abzüge
+```
+
+---
+
+## Speicherung
+
+### ⚙️ Konfiguration speichern
+
+Speichert dauerhaft:
+
+- Getränke
+- Getränkepreise
+- Abzugsarten
+- Abzugswerte
+
+### 💾 Abrechnung speichern
+
+Reserviert für zukünftige Tagesabschlüsse.
+
+---
+
+## 🆕 Neue Abrechnung
+
+Setzt zurück:
+
+- Mengen Getränke
+- Mengen Abzüge
+
+Bleibt erhalten:
+
+- Getränkenamen
+- Getränkepreise
+- Abzugsarten
+- Abzugswerte
+
+---
+
+## 📄 PDF
+
+Druckansicht über Browser.
+
+Geeignet für:
+
+- Tagesabschluss
+- Vereinsablage
+- Veranstaltungsnachweis
+
+---
+
+# Technische Basis
+
+- HTML5
+- CSS3
+- JavaScript
+- LocalStorage
+- GitHub Pages
+
+---
+
+# GitHub Repository
+
+```text
+kellnerabrechnung
+```
+
+Live-System:
+
+```text
+https://sebastianmehler-cpu.github.io/kellnerabrechnung/
+```
+
+---
+
+# Roadmap
+
+## Version 1.2
+
+### Veranstaltungsdaten
+
+- Veranstaltungsname
+- Datum
+- Veranstalter
+
+### Designverbesserungen
+
+- Dark Mode
+- Vereinslogo
+- App Icon
+
+### Speicherfunktionen
+
+- Mehrere Abrechnungen speichern
+- Historie
+
+---
+
+## Version 1.3
+
+### Tagesabschlüsse
+
+Speichern von:
+
+- Datum
+- Umsatz
+- Provision
+- Abzügen
+- Auszahlung
+
+Historie anzeigen
+
+---
+
+## Version 1.4
+
+### Archiv
+
+Liste aller gespeicherten Abrechnungen
+
+Beispiel:
+
+```text
+12.08.2026 Sommerfest
+13.08.2026 Vereinsabend
+20.08.2026 Grillfest
+```
+
+---
+
+## Version 1.5
+
+### PWA
+
+- Installation auf iPhone
+- Installation auf Android
+- Offline Betrieb
+- Homescreen Icon
+
+---
+
+## Version 2.0
+
+### Statistik
+
+- Umsatz pro Monat
+- Umsatz pro Jahr
+- Beliebteste Getränke
+- Durchschnittsumsatz
+
+---
+
+## Version 2.1
+
+### Export
+
+- Excel Export
+- CSV Export
+- PDF Report
+
+---
+
+## Version 2.2
+
+### Dashboard Plus
+
+- Monatsübersicht
+- Jahresübersicht
+- Umsatzdiagramme
+
+---
+
+# Ideen Backlog
+
+- QR-Code auf PDF
+- Vereinslogo Upload
+- Dark Mode
+- Backup Export
+- Import von Konfigurationen
+- Eigene Farbschemas
+- Mehrere Veranstaltungen gleichzeitig
+- Cloud-Synchronisierung
+
+---
+
+# Changelog
+
+## v1.1
+
+- Dashboard erstellt
+- Getränkeverwaltung erstellt
+- Abzugsverwaltung erstellt
+- Konfigurationsspeicherung integriert
+- PDF Funktion integriert
+- Responsive iPhone Layout integriert
+
+---
+
+Erstellt für Sebastian Mehler 🍺
