@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>Kellerabrechnung</title>
+<title>Abrechnung3000</title>
 
 <style>
 
@@ -281,14 +281,14 @@ oninput="calculate()">
 
 let drinks =
 JSON.parse(localStorage.getItem("config_drinks")) || [
-{name:"Bier",qty:0,price:3.00},
-{name:"Weizen",qty:0,price:3.50},
-{name:"Cola",qty:0,price:2.50}
+{name:"Bier",qty:0,price:0.00},
+{name:"Weizen",qty:0,price:0.00},
+{name:"Limo",qty:0,price:0.00}
 ];
 
 let deductions =
 JSON.parse(localStorage.getItem("config_deductions")) || [
-{name:"Gutscheine",qty:0,price:5.00}
+{name:"Biermarken",qty:0,price:0.00}
 ];
 
 function render(){
