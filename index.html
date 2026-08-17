@@ -257,11 +257,11 @@
 
     .table-head {
       display: grid;
-      grid-template-columns: 1.45fr 0.68fr 0.82fr 0.82fr auto;
+      grid-template-columns: 1.6fr 0.55fr 0.7fr 0.7fr auto;
       gap: 6px;
       padding: 0 8px 6px;
       color: var(--muted);
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       font-weight: 700;
       letter-spacing: 0.02em;
       text-transform: uppercase;
@@ -269,13 +269,28 @@
 
     .row {
       display: grid;
-      grid-template-columns: 1.45fr 0.68fr 0.82fr 0.82fr auto;
+      grid-template-columns: 1.6fr 0.55fr 0.7fr 0.7fr auto;
       gap: 6px;
       align-items: center;
       padding: 8px;
       border-radius: 16px;
       border: 1px solid var(--line);
       background: rgba(255,255,255,0.28);
+    }
+
+    .row-top {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .row-bottom {
+      display: grid;
+      grid-template-columns: 0.55fr 0.7fr 0.7fr auto;
+      gap: 6px;
+      align-items: center;
     }
 
     .cell {
@@ -295,6 +310,14 @@
       background: rgba(37,99,235,0.08);
     }
 
+    .name-cell {
+      font-size: 16px;
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
     .num {
       text-align: right;
       font-variant-numeric: tabular-nums;
@@ -308,6 +331,7 @@
       min-height: var(--tap);
       font-weight: 700;
       font-variant-numeric: tabular-nums;
+      white-space: nowrap;
     }
 
     .btn {
@@ -366,21 +390,40 @@
     @media (max-width: 640px) {
       .form-grid { grid-template-columns: 1fr; }
       .dashboard { grid-template-columns: 1fr 1fr; }
-      .row, .table-head { grid-template-columns: 1.25fr 0.62fr 0.78fr 0.78fr auto; }
       .section-header { flex-direction: column; align-items: flex-start; }
+      .table-head { grid-template-columns: 1.4fr 0.5fr 0.65fr 0.65fr auto; }
+      .row { grid-template-columns: 1.4fr 0.5fr 0.65fr 0.65fr auto; }
     }
 
     @media (max-width: 430px) {
       .app { padding-left: 8px; padding-right: 8px; }
       .titlecard, .section { border-radius: 18px; }
-      .row, .table-head {
-        grid-template-columns: 1.1fr 0.58fr 0.72fr 0.72fr auto;
-        gap: 5px;
+      .table-head {
+        grid-template-columns: 1fr;
+        gap: 0;
+        padding-bottom: 0;
+        display: none;
       }
-      .row { padding: 7px; }
+      .row {
+        grid-template-columns: 1fr;
+        gap: 8px;
+        padding: 10px;
+      }
+      .row-top {
+        grid-template-columns: 1fr auto;
+      }
+      .row-bottom {
+        grid-template-columns: 1fr 1fr 1fr auto;
+      }
       .cell { padding: 11px 7px; }
       .btn { padding: 0 10px; }
       .metric { min-height: 92px; padding: 12px; }
+      .name-cell {
+        white-space: normal;
+        overflow: visible;
+        text-overflow: clip;
+        line-height: 1.2;
+      }
     }
   </style>
 </head>
@@ -513,7 +556,7 @@
 
   <script>
     (() => {
-      const STORAGE_KEY = "abrechner3000_state_v7";
+      const STORAGE_KEY = "abrechner3000_state_v8";
 
       const state = {
         eventDate: "",
@@ -621,21 +664,31 @@
       function renderTables() {
         els.drinksTable.innerHTML = state.drinks.map((d, i) => `
           <div class="row">
-            <input class="cell" data-kind="drink-name" data-index="${i}" type="text" value="${escapeHtml(d.name)}" placeholder="Getränk" />
-            <input class="cell num" data-kind="drink-qty" data-index="${i}" type="number" inputmode="numeric" pattern="[0-9]*" min="0" step="1" value="${escapeHtml(d.qty)}" placeholder="0" />
-            <input class="cell num" data-kind="drink-price" data-index="${i}" type="number" inputmode="decimal" step="0.01" min="0" value="${escapeHtml(d.price)}" placeholder="0,00" />
-            <div class="sum" data-sum-drink="${i}">${money(num(d.qty) * num(d.price))}</div>
-            <button class="btn btn-danger" data-action="delete-drink" data-index="${i}" aria-label="Getränk löschen">🗑️</button>
+            <div class="row-top">
+              <input class="cell name-cell" data-kind="drink-name" data-index="${i}" type="text" value="${escapeHtml(d.name)}" placeholder="Getränk" />
+              <button class="btn btn-danger" data-action="delete-drink" data-index="${i}" aria-label="Getränk löschen">🗑️</button>
+            </div>
+            <div class="row-bottom">
+              <input class="cell num" data-kind="drink-qty" data-index="${i}" type="number" inputmode="numeric" pattern="[0-9]*" min="0" step="1" value="${escapeHtml(d.qty)}" placeholder="0" />
+              <input class="cell num" data-kind="drink-price" data-index="${i}" type="number" inputmode="decimal" step="0.01" min="0" value="${escapeHtml(d.price)}" placeholder="0,00" />
+              <div class="sum" data-sum-drink="${i}">${money(num(d.qty) * num(d.price))}</div>
+              <div></div>
+            </div>
           </div>
         `).join("");
 
         els.deductionsTable.innerHTML = state.deductions.map((d, i) => `
           <div class="row">
-            <input class="cell" data-kind="deduction-name" data-index="${i}" type="text" value="${escapeHtml(d.name)}" placeholder="Abzug" />
-            <input class="cell num" data-kind="deduction-qty" data-index="${i}" type="number" inputmode="numeric" pattern="[0-9]*" min="0" step="1" value="${escapeHtml(d.qty)}" placeholder="0" />
-            <input class="cell num" data-kind="deduction-value" data-index="${i}" type="number" inputmode="decimal" step="0.01" min="0" value="${escapeHtml(d.value)}" placeholder="0,00" />
-            <div class="sum" data-sum-deduction="${i}">${money(num(d.qty) * num(d.value))}</div>
-            <button class="btn btn-danger" data-action="delete-deduction" data-index="${i}" aria-label="Abzug löschen">🗑️</button>
+            <div class="row-top">
+              <input class="cell name-cell" data-kind="deduction-name" data-index="${i}" type="text" value="${escapeHtml(d.name)}" placeholder="Abzug" />
+              <button class="btn btn-danger" data-action="delete-deduction" data-index="${i}" aria-label="Abzug löschen">🗑️</button>
+            </div>
+            <div class="row-bottom">
+              <input class="cell num" data-kind="deduction-qty" data-index="${i}" type="number" inputmode="numeric" pattern="[0-9]*" min="0" step="1" value="${escapeHtml(d.qty)}" placeholder="0" />
+              <input class="cell num" data-kind="deduction-value" data-index="${i}" type="number" inputmode="decimal" step="0.01" min="0" value="${escapeHtml(d.value)}" placeholder="0,00" />
+              <div class="sum" data-sum-deduction="${i}">${money(num(d.qty) * num(d.value))}</div>
+              <div></div>
+            </div>
           </div>
         `).join("");
       }
