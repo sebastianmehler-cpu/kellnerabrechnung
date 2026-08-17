@@ -363,15 +363,6 @@
       line-height: 1.4;
     }
 
-    .empty {
-      padding: 16px;
-      text-align: center;
-      color: var(--muted);
-      border: 1px dashed var(--line);
-      border-radius: 16px;
-      background: rgba(255,255,255,0.18);
-    }
-
     @media (max-width: 640px) {
       .form-grid { grid-template-columns: 1fr; }
       .dashboard { grid-template-columns: 1fr 1fr; }
@@ -390,14 +381,6 @@
       .cell { padding: 11px 7px; }
       .btn { padding: 0 10px; }
       .metric { min-height: 92px; padding: 12px; }
-    }
-
-    @media print {
-      body { background: white; color: black; }
-      .no-print { display: none !important; }
-      .section, .titlecard { box-shadow: none; background: white; }
-      .app { max-width: none; padding: 0; }
-      .row { break-inside: avoid; }
     }
   </style>
 </head>
@@ -530,7 +513,7 @@
 
   <script>
     (() => {
-      const STORAGE_KEY = "abrechner3000_state_v5";
+      const STORAGE_KEY = "abrechner3000_state_v6";
 
       const state = {
         eventDate: "",
@@ -610,7 +593,7 @@
 
       function saveDebounced(message = "Live aktualisiert") {
         clearTimeout(saveTimer);
-        saveTimer = setTimeout(() => save(message), 120);
+        saveTimer = setTimeout(() => save(message), 80);
       }
 
       function setStatus(text, ok = false) {
@@ -641,7 +624,7 @@
             <input class="cell" data-kind="drink-name" data-index="${i}" type="text" value="${escapeHtml(d.name)}" placeholder="Getränk" />
             <input class="cell num" data-kind="drink-qty" data-index="${i}" type="number" inputmode="numeric" pattern="[0-9]*" min="0" step="1" value="${escapeHtml(d.qty)}" placeholder="0" />
             <input class="cell num" data-kind="drink-price" data-index="${i}" type="number" inputmode="decimal" step="0.01" min="0" value="${escapeHtml(d.price)}" placeholder="0,00" />
-            <div class="sum">${money(num(d.qty) * num(d.price))}</div>
+            <div class="sum" data-sum-drink="${i}">${money(num(d.qty) * num(d.price))}</div>
             <button class="btn btn-danger" data-action="delete-drink" data-index="${i}" aria-label="Getränk löschen">🗑️</button>
           </div>
         `).join("");
@@ -651,7 +634,7 @@
             <input class="cell" data-kind="deduction-name" data-index="${i}" type="text" value="${escapeHtml(d.name)}" placeholder="Abzug" />
             <input class="cell num" data-kind="deduction-qty" data-index="${i}" type="number" inputmode="numeric" pattern="[0-9]*" min="0" step="1" value="${escapeHtml(d.qty)}" placeholder="0" />
             <input class="cell num" data-kind="deduction-value" data-index="${i}" type="number" inputmode="decimal" step="0.01" min="0" value="${escapeHtml(d.value)}" placeholder="0,00" />
-            <div class="sum">${money(num(d.qty) * num(d.value))}</div>
+            <div class="sum" data-sum-deduction="${i}">${money(num(d.qty) * num(d.value))}</div>
             <button class="btn btn-danger" data-action="delete-deduction" data-index="${i}" aria-label="Abzug löschen">🗑️</button>
           </div>
         `).join("");
@@ -665,6 +648,14 @@
         renderDashboard();
       }
 
+      function updateSumForRow(kind, index) {
+        const item = kind === "drink" ? state.drinks[index] : state.deductions[index];
+        const sum = money(num(item.qty) * num(kind === "drink" ? item.price : item.value));
+        const selector = kind === "drink" ? `[data-sum-drink="${index}"]` : `[data-sum-deduction="${index}"]`;
+        const el = document.querySelector(selector);
+        if (el) el.textContent = sum;
+      }
+
       function updateField(kind, index, value) {
         if (kind === "eventDate") state.eventDate = value;
         else if (kind === "eventName") state.eventName = value;
@@ -675,6 +666,9 @@
         else if (kind === "deduction-name") state.deductions[index].name = value;
         else if (kind === "deduction-qty") state.deductions[index].qty = int(value);
         else if (kind === "deduction-value") state.deductions[index].value = num(value);
+
+        if (kind.startsWith("drink-")) updateSumForRow("drink", index);
+        if (kind.startsWith("deduction-")) updateSumForRow("deduction", index);
 
         renderDashboard();
         saveDebounced();
@@ -732,12 +726,16 @@
         save("Neue Abrechnung");
       }
 
-      function selectOnFocus(el) {
-        el.addEventListener("focus", () => {
-          requestAnimationFrame(() => {
+      function autoSelect(el) {
+        const selectAll = () => {
+          try {
+            el.setSelectionRange(0, String(el.value ?? "").length);
+          } catch {
             try { el.select(); } catch {}
-          });
-        });
+          }
+        };
+        el.addEventListener("focus", () => setTimeout(selectAll, 0));
+        el.addEventListener("click", () => setTimeout(selectAll, 0));
       }
 
       els.eventDate.addEventListener("input", e => updateField("eventDate", 0, e.target.value));
@@ -787,16 +785,12 @@
       renderAll();
       setStatus("Bereit", true);
 
-      [
-        els.eventDate,
-        els.eventName,
-        els.commissionPercent
-      ].forEach(selectOnFocus);
+      [els.eventDate, els.eventName, els.commissionPercent].forEach(autoSelect);
 
-      const observer = new MutationObserver(() => {
-        document.querySelectorAll(".cell").forEach(selectOnFocus);
+      const mo = new MutationObserver(() => {
+        document.querySelectorAll(".cell").forEach(autoSelect);
       });
-      observer.observe(document.body, { childList: true, subtree: true });
+      mo.observe(document.body, { childList: true, subtree: true });
     })();
   </script>
 </body>
