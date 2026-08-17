@@ -1,8 +1,8 @@
 {
-  "name": "Kellerabrechnung",
-  "short_name": "Keller",
+  "name": "Abrechner 3000",
+  "short_name": "Abrechner",
   "start_url": "./",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#2f6fed"
+  "background_color": "#f4f7fb",
+  "theme_color": "#1F4E79"
 }
