@@ -1,5 +1,22 @@
-self.addEventListener("install", () => {
-    console.log("SW installiert");
+const CACHE_NAME = "abrechner3000-v1";
+
+const urlsToCache = [
+  "./",
+  "./index.html"
+];
+
+self.addEventListener("install", event => {
+  event.waitUntil(
+    caches.open(CACHE_NAME).then(cache => {
+      return cache.addAll(urlsToCache);
+    })
+  );
 });
 
-self.addEventListener("fetch", () => {});
+self.addEventListener("fetch", event => {
+  event.respondWith(
+    caches.match(event.request).then(response => {
+      return response || fetch(event.request);
+    })
+  );
+});
