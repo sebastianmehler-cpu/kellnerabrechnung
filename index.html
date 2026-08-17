@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 <title>kellnerabrechnung</title>
 
-<style>
+<link rel="manifest" href="manifest.json">
 
 :root{
     --primary:#1F4E79;
@@ -255,6 +256,14 @@ oninput="calculate()">
 
 </div>
 
+<div id="saveStatus"
+style="
+text-align:center;
+margin:10px;
+font-weight:bold;
+color:#1F4E79;">
+</div>
+    
 <div class="footer">
 
 <button onclick="saveConfig()">
@@ -505,6 +514,12 @@ document.getElementById(
 
 render();
 
+</script>
+
+    <script>
+if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("./service-worker.js");
+}
 </script>
 
 </body>
