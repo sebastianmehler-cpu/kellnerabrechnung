@@ -28,7 +28,7 @@
       --radius: 22px;
       --tap: 54px;
       --maxw: 760px;
-      --header-h: 132px;
+      --header-h: 118px;
     }
 
     @media (prefers-color-scheme: dark) {
@@ -75,7 +75,7 @@
       right: 0;
       z-index: 1000;
       padding-top: env(safe-area-inset-top);
-      background: linear-gradient(180deg, rgba(243,246,251,0.96), rgba(243,246,251,0.72));
+      background: linear-gradient(180deg, rgba(243,246,251,0.98), rgba(243,246,251,0.82));
       backdrop-filter: blur(18px);
       -webkit-backdrop-filter: blur(18px);
       border-bottom: 1px solid rgba(255,255,255,0.08);
@@ -83,7 +83,7 @@
 
     @media (prefers-color-scheme: dark) {
       .header {
-        background: linear-gradient(180deg, rgba(11,18,32,0.96), rgba(11,18,32,0.72));
+        background: linear-gradient(180deg, rgba(11,18,32,0.98), rgba(11,18,32,0.82));
       }
     }
 
@@ -513,7 +513,7 @@
 
   <script>
     (() => {
-      const STORAGE_KEY = "abrechner3000_state_v6";
+      const STORAGE_KEY = "abrechner3000_state_v7";
 
       const state = {
         eventDate: "",
