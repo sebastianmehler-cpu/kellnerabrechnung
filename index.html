@@ -1,521 +1,765 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no" />
+  <meta name="theme-color" content="#0f172a" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Abrechner 3000" />
+  <meta name="format-detection" content="telephone=no" />
+  <title>🍺 Abrechner 3000</title>
 
-<meta charset="UTF-8">
-<meta name="viewport"
-content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" href="https://dummyimage.com/180x180/0f172a/ffffff.png&text=A3K" />
 
-<title>kellnerabrechnung</title>
+  <style>
+    :root {
+      --bg: #f2f4f8;
+      --bg2: #e9edf5;
+      --card: rgba(255, 255, 255, 0.78);
+      --card-solid: #ffffff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --line: rgba(15, 23, 42, 0.08);
+      --accent: #2563eb;
+      --accent2: #0ea5e9;
+      --danger: #ef4444;
+      --success: #16a34a;
+      --warning: #f59e0b;
+      --shadow: 0 12px 30px rgba(15, 23, 42, 0.10);
+      --shadow2: 0 6px 18px rgba(15, 23, 42, 0.08);
+      --radius: 22px;
+      --radius-sm: 16px;
+      --tap: 52px;
+    }
 
-<link rel="manifest" href="manifest.json">
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0b1220;
+        --bg2: #111827;
+        --card: rgba(17, 24, 39, 0.78);
+        --card-solid: #111827;
+        --text: #e5e7eb;
+        --muted: #94a3b8;
+        --line: rgba(255, 255, 255, 0.08);
+        --accent: #60a5fa;
+        --accent2: #38bdf8;
+        --danger: #f87171;
+        --success: #4ade80;
+        --warning: #fbbf24;
+        --shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+        --shadow2: 0 6px 18px rgba(0, 0, 0, 0.25);
+      }
+    }
 
-<style>
+    * { box-sizing: border-box; }
+    html {
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+      touch-action: manipulation;
+    }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(37, 99, 235, 0.12), transparent 30%),
+        radial-gradient(circle at top right, rgba(14, 165, 233, 0.10), transparent 28%),
+        linear-gradient(180deg, var(--bg), var(--bg2));
+      color: var(--text);
+      min-height: 100vh;
+      min-height: 100dvh;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
 
-:root{
-    --primary:#1F4E79;
-    --danger:#dc3545;
-    --bg:#f4f7fb;
-}
+    button, input {
+      font: inherit;
+    }
 
-body{
-    margin:0;
-    padding:10px;
-    background:var(--bg);
-    font-family:-apple-system,Arial,sans-serif;
-}
+    .app {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: calc(env(safe-area-inset-top) + 14px) 14px calc(env(safe-area-inset-bottom) + 24px);
+    }
 
-.container{
-    max-width:1000px;
-    margin:auto;
-}
+    .topbar {
+      display: grid;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
 
-h1{
-    text-align:center;
-    color:var(--primary);
-    margin-bottom:5px;
-}
+    .titlecard {
+      background: var(--card);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 18px;
+    }
 
-.subtitle{
-    text-align:center;
-    color:#666;
-    margin-bottom:20px;
-}
+    .title-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
 
-.dashboard{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:10px;
-    margin-bottom:15px;
-}
+    h1 {
+      margin: 0;
+      font-size: clamp(1.5rem, 4vw, 2.2rem);
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+    }
 
-.stat{
-    background:white;
-    border-radius:15px;
-    padding:15px;
-    text-align:center;
-    box-shadow:0 2px 8px rgba(0,0,0,.08);
-}
+    .subtitle {
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
 
-.stat-title{
-    font-size:14px;
-    color:#666;
-}
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 12px;
+      border-radius: 999px;
+      background: rgba(37, 99, 235, 0.10);
+      color: var(--accent);
+      font-weight: 700;
+      white-space: nowrap;
+    }
 
-.stat-value{
-    font-size:22px;
-    font-weight:bold;
-    margin-top:8px;
-}
+    .grid {
+      display: grid;
+      gap: 14px;
+    }
 
-.section{
-    background:white;
-    border-radius:15px;
-    padding:15px;
-    margin-bottom:15px;
-    box-shadow:0 2px 8px rgba(0,0,0,.08);
-}
+    .section {
+      background: var(--card);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow2);
+      overflow: hidden;
+    }
 
-.section h2{
-    color:var(--primary);
-    margin-top:0;
-}
+    .section-header {
+      padding: 16px 16px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      border-bottom: 1px solid var(--line);
+    }
 
-.table-header,
-.row{
-    display:grid;
-    grid-template-columns:120px 60px 75px 75px 40px;
-    gap:5px;
-    align-items:center;
-}
+    .section-header h2 {
+      margin: 0;
+      font-size: 1.05rem;
+      letter-spacing: -0.02em;
+    }
 
-.table-header{
-    font-weight:bold;
-    border-bottom:1px solid #ddd;
-    margin-bottom:10px;
-    padding-bottom:5px;
-    font-size:14px;
-}
+    .section-header .hint {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
 
-.row{
-    margin-bottom:8px;
-}
+    .section-body {
+      padding: 14px 16px 16px;
+    }
 
-input{
-    width:100%;
-    padding:8px;
-    border:1px solid #ccc;
-    border-radius:8px;
-}
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
 
-.sum-box{
-    text-align:right;
-    background:#eef2f5;
-    border-radius:8px;
-    padding:8px;
-    font-weight:bold;
-}
+    .field {
+      display: grid;
+      gap: 6px;
+    }
 
-.btn-add{
-    width:100%;
-    padding:12px;
-    border:none;
-    border-radius:10px;
-    background:var(--primary);
-    color:white;
-    margin-top:10px;
-    font-weight:bold;
-}
+    .field label {
+      font-size: 0.88rem;
+      color: var(--muted);
+      font-weight: 600;
+    }
 
-.btn-delete{
-    background:var(--danger);
-    color:white;
-    border:none;
-    border-radius:10px;
-    height:40px;
-}
+    .input {
+      width: 100%;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.55);
+      color: var(--text);
+      border-radius: 16px;
+      padding: 14px 14px;
+      min-height: var(--tap);
+      outline: none;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.35);
+    }
 
-.result{
-    background:var(--primary);
-    color:white;
-    text-align:center;
-    border-radius:15px;
-    padding:20px;
-}
+    @media (prefers-color-scheme: dark) {
+      .input {
+        background: rgba(255,255,255,0.04);
+        box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
+      }
+    }
 
-.result-value{
-    font-size:36px;
-    font-weight:bold;
-}
+    .input:focus {
+      border-color: rgba(37, 99, 235, 0.55);
+      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+    }
 
-.footer{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:8px;
-    margin-top:15px;
-}
+    .dashboard {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
 
-.footer button{
-    padding:10px;
-    border:none;
-    border-radius:10px;
-    background:var(--primary);
-    color:white;
-    font-size:12px;
-    font-weight:bold;
-}
+    .metric {
+      padding: 16px;
+      border-radius: 20px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.55), rgba(255,255,255,0.28));
+      border: 1px solid var(--line);
+      min-height: 110px;
+      display: grid;
+      align-content: space-between;
+    }
 
-</style>
+    .metric .label {
+      color: var(--muted);
+      font-weight: 700;
+      font-size: 0.92rem;
+    }
+
+    .metric .value {
+      font-size: clamp(1.35rem, 4vw, 2rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+    }
+
+    .metric.primary {
+      background: linear-gradient(180deg, rgba(37,99,235,0.16), rgba(37,99,235,0.06));
+    }
+
+    .metric.success {
+      background: linear-gradient(180deg, rgba(22,163,74,0.16), rgba(22,163,74,0.06));
+    }
+
+    .metric.danger {
+      background: linear-gradient(180deg, rgba(239,68,68,0.16), rgba(239,68,68,0.06));
+    }
+
+    .metric.out {
+      background: linear-gradient(180deg, rgba(14,165,233,0.16), rgba(14,165,233,0.06));
+    }
+
+    .table {
+      display: grid;
+      gap: 10px;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1.6fr 0.7fr 0.9fr 0.9fr auto;
+      gap: 10px;
+      align-items: center;
+      padding: 10px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.35);
+      border: 1px solid var(--line);
+    }
+
+    .row.debit {
+      grid-template-columns: 1.6fr 0.7fr 0.9fr 0.9fr auto;
+    }
+
+    .cell-input {
+      width: 100%;
+      min-width: 0;
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--text);
+      padding: 12px 10px;
+      border-radius: 14px;
+      outline: none;
+      min-height: var(--tap);
+    }
+
+    .cell-input:focus {
+      background: rgba(37,99,235,0.08);
+      border-color: rgba(37,99,235,0.18);
+    }
+
+    .cell-number {
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .btn {
+      border: 0;
+      border-radius: 16px;
+      min-height: var(--tap);
+      padding: 0 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.06s ease, opacity 0.2s ease, background 0.2s ease;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .btn:active { transform: scale(0.98); }
+    .btn-primary {
+      background: linear-gradient(180deg, var(--accent), #1d4ed8);
+      color: white;
+      box-shadow: 0 10px 20px rgba(37,99,235,0.22);
+    }
+    .btn-secondary {
+      background: rgba(37,99,235,0.10);
+      color: var(--accent);
+    }
+    .btn-danger {
+      background: rgba(239,68,68,0.12);
+      color: var(--danger);
+    }
+    .btn-ghost {
+      background: rgba(100,116,139,0.10);
+      color: var(--text);
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .footer-actions {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .small-note {
+      color: var(--muted);
+      font-size: 0.88rem;
+      margin-top: 10px;
+    }
+
+    .empty {
+      padding: 18px;
+      color: var(--muted);
+      text-align: center;
+      border: 1px dashed var(--line);
+      border-radius: 18px;
+      background: rgba(255,255,255,0.22);
+    }
+
+    .sticky {
+      position: sticky;
+      top: calc(env(safe-area-inset-top) + 10px);
+      z-index: 10;
+    }
+
+    @media (max-width: 860px) {
+      .dashboard { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .footer-actions { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 640px) {
+      .form-grid { grid-template-columns: 1fr; }
+      .row, .row.debit {
+        grid-template-columns: 1.4fr 0.7fr 0.9fr 0.9fr auto;
+      }
+      .section-header {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .app { padding-left: 10px; padding-right: 10px; }
+      .row, .row.debit {
+        grid-template-columns: 1fr 0.7fr 0.8fr 0.8fr auto;
+        gap: 8px;
+      }
+      .cell-input { padding: 12px 8px; }
+      .btn { padding: 0 12px; }
+    }
+
+    @media print {
+      body { background: white; color: black; }
+      .no-print { display: none !important; }
+      .section, .titlecard { box-shadow: none; background: white; }
+      .app { max-width: none; padding: 0; }
+      .row { break-inside: avoid; }
+    }
+  </style>
 </head>
 <body>
-
-<div class="container">
-
-<h1>🍺 Abrechner 3000</h1>
-<div class="subtitle">HERZOKELLNER</div>
-
-<div class="dashboard">
-
-<div class="stat">
-<div class="stat-title">💰 Umsatz</div>
-<div class="stat-value" id="umsatzCard">0,00 €</div>
-</div>
-
-<div class="stat">
-<div class="stat-title">🎫 Provision</div>
-<div class="stat-value" id="provCard">0,00 €</div>
-</div>
-
-<div class="stat">
-<div class="stat-title">➖ Abzüge</div>
-<div class="stat-value" id="abzugCard">0,00 €</div>
-</div>
-
-</div>
-
-<div class="section">
-
-<h2>🍺 Getränke</h2>
-
-<div class="table-header">
-<div>Getränk</div>
-<div>Anzahl</div>
-<div>Preis €</div>
-<div>Summe €</div>
-<div></div>
-</div>
-
-<div id="drinkList"></div>
-
-<button class="btn-add" onclick="addDrink()">
-+ Getränk hinzufügen
-</button>
-
-</div>
-
-<div class="section">
-
-<h2>🎫 Abzüge</h2>
-
-<div class="table-header">
-<div>Abzug</div>
-<div>Anzahl</div>
-<div>Wert €</div>
-<div>Summe €</div>
-<div></div>
-</div>
-
-<div id="deductionList"></div>
-
-<button class="btn-add" onclick="addDeduction()">
-+ Abzug hinzufügen
-</button>
-
-</div>
-
-<div class="section">
-
-<h2>⚙️ Provision (%)</h2>
-
-<input
-id="provision"
-type="number"
-inputmode="numeric"
-min="0"
-max="100"
-step="1"
-value="10"
-oninput="calculate()">
-
-</div>
-
-<div class="result">
-
-<div>💵 Auszahlung</div>
-
-<div id="auszahlung" class="result-value">
-0,00 €
-</div>
-
-</div>
-
-<div class="footer">
-
-<button onclick="saveConfig()">
-⚙️ Konfig
-</button>
-
-<button onclick="saveData()">
-💾 Speichern
-</button>
-
-<button onclick="newSettlement()">
-🆕 Neu
-</button>
-
-<button onclick="window.print()">
-📄 PDF
-</button>
-
-</div>
-
-</div>
-
-<script>
-
-let drinks =
-JSON.parse(localStorage.getItem("config_drinks")) || [
-{name:"Bier",qty:0,price:0.00},
-{name:"Weizen",qty:0,price:0.00},
-{name:"Limo",qty:0,price:0.00}
-];
-
-let deductions =
-JSON.parse(localStorage.getItem("config_deductions")) || [
-{name:"Biermarken",qty:0,price:0.00}
-];
-
-function render(){
-
-let html="";
-
-drinks.forEach((d,index)=>{
-
-html+=`
-<div class="row">
-
-<input value="${d.name}"
-oninput="drinks[${index}].name=this.value">
-
-<input
-type="number"
-inputmode="numeric"
-min="0"
-step="1"
-value="${d.qty}"
-oninput="drinks[${index}].qty=Number(this.value);calculate()">
-
-<input
-type="number"
-inputmode="decimal"
-min="0"
-step="0.10"
-value="${d.price}"
-oninput="drinks[${index}].price=Number(this.value);calculate()">
-
-<div class="sum-box" id="drinkSum${index}">
-0.00 €
-</div>
-
-<button class="btn-delete"
-onclick="deleteDrink(${index})">
-🗑
-</button>
-
-</div>
-`;
-
-});
-
-document.getElementById("drinkList").innerHTML=html;
-
-html="";
-
-deductions.forEach((d,index)=>{
-
-html+=`
-<div class="row">
-
-<input value="${d.name}"
-oninput="deductions[${index}].name=this.value">
-
-<input
-type="number"
-inputmode="numeric"
-min="0"
-step="1"
-value="${d.qty}"
-oninput="deductions[${index}].qty=Number(this.value);calculate()">
-
-<input
-type="number"
-inputmode="decimal"
-min="0"
-step="0.01"
-value="${d.price}"
-oninput="deductions[${index}].price=Number(this.value);calculate()">
-
-<div class="sum-box" id="deductionSum${index}">
-0.00 €
-</div>
-
-<button class="btn-delete"
-onclick="deleteDeduction(${index})">
-🗑
-</button>
-
-</div>
-`;
-
-});
-
-document.getElementById("deductionList").innerHTML=html;
-
-calculate();
-}
-
-function calculate(){
-
-let revenue=0;
-let deductionTotal=0;
-
-drinks.forEach((d,index)=>{
-
-let sum=d.qty*d.price;
-revenue+=sum;
-
-document.getElementById(
-"drinkSum"+index
-).innerHTML=sum.toFixed(2)+" €";
-
-});
-
-deductions.forEach((d,index)=>{
-
-let sum=d.qty*d.price;
-deductionTotal+=sum;
-
-document.getElementById(
-"deductionSum"+index
-).innerHTML=sum.toFixed(2)+" €";
-
-});
-
-let provisionRate =
-Number(
-document.getElementById("provision").value
-)||0;
-
-let provision =
-revenue * provisionRate / 100;
-
-let payout =
-revenue - provision - deductionTotal;
-
-document.getElementById("umsatzCard").innerHTML =
-revenue.toFixed(2)+" €";
-
-document.getElementById("provCard").innerHTML =
-provision.toFixed(2)+" €";
-
-document.getElementById("abzugCard").innerHTML =
-deductionTotal.toFixed(2)+" €";
-
-document.getElementById("auszahlung").innerHTML =
-payout.toFixed(2)+" €";
-}
-
-function addDrink(){
-
-drinks.push({
-name:"Neues Getränk",
-qty:0,
-price:0
-});
-
-render();
-}
-
-function addDeduction(){
-
-deductions.push({
-name:"Neuer Abzug",
-qty:0,
-price:0
-});
-
-render();
-}
-
-function deleteDrink(index){
-
-drinks.splice(index,1);
-
-render();
-}
-
-function deleteDeduction(index){
-
-deductions.splice(index,1);
-
-render();
-}
-
-function saveConfig(){
-
-localStorage.setItem(
-"config_drinks",
-JSON.stringify(drinks)
-);
-
-localStorage.setItem(
-"config_deductions",
-JSON.stringify(deductions)
-);
-
-document.getElementById(
-"saveStatus"
-).innerHTML =
-"✅ Konfiguration gespeichert";
-}
-
-function saveData(){
-
-alert("✅ Abrechnung gespeichert");
-}
-
-function newSettlement(){
-
-drinks.forEach(d=>d.qty=0);
-deductions.forEach(d=>d.qty=0);
-
-render();
-
-document.getElementById(
-"saveStatus"
-).innerHTML =
-"✅ Neue Abrechnung erstellt";
-}
-
-render();
-
-</script>
-
-    <script>
-if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("./service-worker.js");
-}
-</script>
-
+  <div class="app">
+    <div class="topbar sticky no-print">
+      <div class="titlecard">
+        <div class="title-row">
+          <div>
+            <h1>🍺 Abrechner 3000</h1>
+            <div class="subtitle">Keller-, Vereins- und Festabrechnung · offlinefähig · iPhone-optimiert</div>
+          </div>
+          <div class="status" id="saveStatus">● Bereit</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid">
+      <section class="section no-print">
+        <div class="section-header">
+          <h2>📅 Veranstaltung</h2>
+          <div class="hint">Datum und Name</div>
+        </div>
+        <div class="section-body">
+          <div class="form-grid">
+            <div class="field">
+              <label for="eventDate">Datum</label>
+              <input class="input" id="eventDate" type="date" />
+            </div>
+            <div class="field">
+              <label for="eventName">Veranstaltungsname</label>
+              <input class="input" id="eventName" type="text" placeholder="z. B. Sommerfest 2026" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-header">
+          <h2>📊 Dashboard</h2>
+          <div class="hint">Live-Berechnung</div>
+        </div>
+        <div class="section-body">
+          <div class="dashboard">
+            <div class="metric primary">
+              <div class="label">💰 Umsatz</div>
+              <div class="value" id="metricRevenue">0,00 €</div>
+            </div>
+            <div class="metric success">
+              <div class="label">🎫 Provision</div>
+              <div class="value" id="metricCommission">0,00 €</div>
+            </div>
+            <div class="metric danger">
+              <div class="label">➖ Abzüge</div>
+              <div class="value" id="metricDeductions">0,00 €</div>
+            </div>
+            <div class="metric out">
+              <div class="label">💵 Auszahlung</div>
+              <div class="value" id="metricPayout">0,00 €</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section no-print">
+        <div class="section-header">
+          <h2>🍻 Getränke</h2>
+          <div class="hint">Anzahl · Preis · Summe</div>
+        </div>
+        <div class="section-body">
+          <div id="drinksTable" class="table"></div>
+          <div class="actions">
+            <button class="btn btn-secondary" id="addDrinkBtn">+ Getränk hinzufügen</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="section no-print">
+        <div class="section-header">
+          <h2>➖ Abzüge</h2>
+          <div class="hint">Anzahl · Wert · Summe</div>
+        </div>
+        <div class="section-body">
+          <div id="deductionsTable" class="table"></div>
+          <div class="actions">
+            <button class="btn btn-secondary" id="addDeductionBtn">+ Abzug hinzufügen</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="section no-print">
+        <div class="section-header">
+          <h2>⚙️ Konfiguration</h2>
+          <div class="hint">Provision & Speicherung</div>
+        </div>
+        <div class="section-body">
+          <div class="form-grid">
+            <div class="field">
+              <label for="commissionPercent">Provision in %</label>
+              <input class="input" id="commissionPercent" type="number" inputmode="numeric" min="0" step="1" placeholder="z. B. 10" />
+            </div>
+            <div class="field">
+              <label for="infoField">Hinweis</label>
+              <input class="input" id="infoField" type="text" value="Alle Änderungen werden live berechnet." readonly />
+            </div>
+          </div>
+
+          <div class="actions">
+            <button class="btn btn-primary" id="saveConfigBtn">⚙️ Konfig speichern</button>
+            <button class="btn btn-ghost" id="saveSettlementBtn">💾 Abrechnung speichern</button>
+            <button class="btn btn-ghost" id="newSettlementBtn">🆕 Neu</button>
+            <button class="btn btn-ghost" id="printBtn">📄 PDF</button>
+          </div>
+
+          <div class="small-note">
+            Tipp: Auf dem iPhone über <strong>Teilen → Zum Home-Bildschirm</strong> installierbar.
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <script>
+    (() => {
+      const STORAGE_KEY = "abrechner3000_state_v1";
+      const DEFAULT_STATE = {
+        eventDate: "",
+        eventName: "",
+        commissionPercent: 10,
+        drinks: [
+          { name: "Neues Getränk", qty: 0, price: 0 }
+        ],
+        deductions: [
+          { name: "Neuer Abzug", qty: 0, value: 0 }
+        ],
+        settlements: []
+      };
+
+      const els = {
+        eventDate: document.getElementById("eventDate"),
+        eventName: document.getElementById("eventName"),
+        commissionPercent: document.getElementById("commissionPercent"),
+        drinksTable: document.getElementById("drinksTable"),
+        deductionsTable: document.getElementById("deductionsTable"),
+        metricRevenue: document.getElementById("metricRevenue"),
+        metricCommission: document.getElementById("metricCommission"),
+        metricDeductions: document.getElementById("metricDeductions"),
+        metricPayout: document.getElementById("metricPayout"),
+        saveStatus: document.getElementById("saveStatus"),
+        addDrinkBtn: document.getElementById("addDrinkBtn"),
+        addDeductionBtn: document.getElementById("addDeductionBtn"),
+        saveConfigBtn: document.getElementById("saveConfigBtn"),
+        saveSettlementBtn: document.getElementById("saveSettlementBtn"),
+        newSettlementBtn: document.getElementById("newSettlementBtn"),
+        printBtn: document.getElementById("printBtn")
+      };
+
+      let state = loadState();
+
+      function loadState() {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          if (!raw) return structuredClone(DEFAULT_STATE);
+          const parsed = JSON.parse(raw);
+          return {
+            ...structuredClone(DEFAULT_STATE),
+            ...parsed,
+            drinks: Array.isArray(parsed.drinks) && parsed.drinks.length ? parsed.drinks : structuredClone(DEFAULT_STATE.drinks),
+            deductions: Array.isArray(parsed.deductions) && parsed.deductions.length ? parsed.deductions : structuredClone(DEFAULT_STATE.deductions),
+            settlements: Array.isArray(parsed.settlements) ? parsed.settlements : []
+          };
+        } catch {
+          return structuredClone(DEFAULT_STATE);
+        }
+      }
+
+      function saveState(message = "Gespeichert") {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        setStatus(message, true);
+      }
+
+      function setStatus(text, ok = false) {
+        els.saveStatus.textContent = ok ? `● ${text}` : text;
+        els.saveStatus.style.background = ok ? "rgba(22,163,74,0.12)" : "rgba(37,99,235,0.10)";
+        els.saveStatus.style.color = ok ? "var(--success)" : "var(--accent)";
+      }
+
+      function money(n) {
+        const value = Number.isFinite(n) ? n : 0;
+        return value.toLocaleString("de-DE", { style: "currency", currency: "EUR" });
+      }
+
+      function num(v) {
+        const n = parseFloat(String(v).replace(",", "."));
+        return Number.isFinite(n) ? n : 0;
+      }
+
+      function int(v) {
+        const n = parseInt(String(v), 10);
+        return Number.isFinite(n) ? n : 0;
+      }
+
+      function calc() {
+        const revenue = state.drinks.reduce((sum, d) => sum + (num(d.qty) * num(d.price)), 0);
+        const deductions = state.deductions.reduce((sum, d) => sum + (num(d.qty) * num(d.value)), 0);
+        const commission = revenue * (num(state.commissionPercent) / 100);
+        const payout = revenue - commission - deductions;
+        return { revenue, deductions, commission, payout };
+      }
+
+      function render() {
+        els.eventDate.value = state.eventDate || "";
+        els.eventName.value = state.eventName || "";
+        els.commissionPercent.value = state.commissionPercent ?? 0;
+
+        els.drinksTable.innerHTML = state.drinks.map((d, i) => `
+          <div class="row">
+            <input class="cell-input" data-type="drink-name" data-index="${i}" type="text" value="${escapeHtml(d.name)}" placeholder="Getränk" />
+            <input class="cell-input cell-number" data-type="drink-qty" data-index="${i}" type="number" inputmode="numeric" pattern="[0-9]*" min="0" step="1" value="${escapeHtml(d.qty)}" placeholder="0" />
+            <input class="cell-input cell-number" data-type="drink-price" data-index="${i}" type="number" inputmode="decimal" step="0.01" min="0" value="${escapeHtml(d.price)}" placeholder="0,00" />
+            <div class="cell-input cell-number" aria-label="Summe">${money(num(d.qty) * num(d.price))}</div>
+            <button class="btn btn-danger" data-action="delete-drink" data-index="${i}">Löschen</button>
+          </div>
+        `).join("") || `<div class="empty">Keine Getränke vorhanden.</div>`;
+
+        els.deductionsTable.innerHTML = state.deductions.map((d, i) => `
+          <div class="row debit">
+            <input class="cell-input" data-type="deduction-name" data-index="${i}" type="text" value="${escapeHtml(d.name)}" placeholder="Abzug" />
+            <input class="cell-input cell-number" data-type="deduction-qty" data-index="${i}" type="number" inputmode="numeric" pattern="[0-9]*" min="0" step="1" value="${escapeHtml(d.qty)}" placeholder="0" />
+            <input class="cell-input cell-number" data-type="deduction-value" data-index="${i}" type="number" inputmode="decimal" step="0.01" min="0" value="${escapeHtml(d.value)}" placeholder="0,00" />
+            <div class="cell-input cell-number" aria-label="Summe">${money(num(d.qty) * num(d.value))}</div>
+            <button class="btn btn-danger" data-action="delete-deduction" data-index="${i}">Löschen</button>
+          </div>
+        `).join("") || `<div class="empty">Keine Abzüge vorhanden.</div>`;
+
+        const totals = calc();
+        els.metricRevenue.textContent = money(totals.revenue);
+        els.metricCommission.textContent = money(totals.commission);
+        els.metricDeductions.textContent = money(totals.deductions);
+        els.metricPayout.textContent = money(totals.payout);
+      }
+
+      function escapeHtml(value) {
+        return String(value ?? "")
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll('"', "&quot;")
+          .replaceAll("'", "&#39;");
+      }
+
+      function updateField(type, index, value) {
+        if (type === "eventDate") state.eventDate = value;
+        if (type === "eventName") state.eventName = value;
+        if (type === "commissionPercent") state.commissionPercent = int(value);
+
+        if (type === "drink-name") state.drinks[index].name = value;
+        if (type === "drink-qty") state.drinks[index].qty = int(value);
+        if (type === "drink-price") state.drinks[index].price = num(value);
+
+        if (type === "deduction-name") state.deductions[index].name = value;
+        if (type === "deduction-qty") state.deductions[index].qty = int(value);
+        if (type === "deduction-value") state.deductions[index].value = num(value);
+
+        render();
+        saveState("Live aktualisiert");
+      }
+
+      function addDrink() {
+        state.drinks.push({ name: "Neues Getränk", qty: 0, price: 0 });
+        render();
+        saveState("Getränk hinzugefügt");
+      }
+
+      function addDeduction() {
+        state.deductions.push({ name: "Neuer Abzug", qty: 0, value: 0 });
+        render();
+        saveState("Abzug hinzugefügt");
+      }
+
+      function deleteDrink(index) {
+        state.drinks.splice(index, 1);
+        if (!state.drinks.length) state.drinks.push({ name: "Neues Getränk", qty: 0, price: 0 });
+        render();
+        saveState("Getränk gelöscht");
+      }
+
+      function deleteDeduction(index) {
+        state.deductions.splice(index, 1);
+        if (!state.deductions.length) state.deductions.push({ name: "Neuer Abzug", qty: 0, value: 0 });
+        render();
+        saveState("Abzug gelöscht");
+      }
+
+      function saveSettlement() {
+        const totals = calc();
+        state.settlements.unshift({
+          savedAt: new Date().toISOString(),
+          eventDate: state.eventDate,
+          eventName: state.eventName,
+          commissionPercent: state.commissionPercent,
+          drinks: structuredClone(state.drinks),
+          deductions: structuredClone(state.deductions),
+          totals
+        });
+        saveState("Abrechnung gespeichert");
+      }
+
+      function newSettlement() {
+        state.drinks = state.drinks.map(d => ({ ...d, qty: 0 }));
+        state.deductions = state.deductions.map(d => ({ ...d, qty: 0 }));
+        render();
+        saveState("Neue Abrechnung");
+      }
+
+      els.drinksTable.addEventListener("input", (e) => {
+        const t = e.target;
+        if (!t.matches("[data-type]")) return;
+        updateField(t.dataset.type, Number(t.dataset.index), t.value);
+      });
+
+      els.deductionsTable.addEventListener("input", (e) => {
+        const t = e.target;
+        if (!t.matches("[data-type]")) return;
+        updateField(t.dataset.type, Number(t.dataset.index), t.value);
+      });
+
+      els.drinksTable.addEventListener("click", (e) => {
+        const btn = e.target.closest("[data-action='delete-drink']");
+        if (btn) deleteDrink(Number(btn.dataset.index));
+      });
+
+      els.deductionsTable.addEventListener("click", (e) => {
+        const btn = e.target.closest("[data-action='delete-deduction']");
+        if (btn) deleteDeduction(Number(btn.dataset.index));
+      });
+
+      els.eventDate.addEventListener("input", (e) => updateField("eventDate", 0, e.target.value));
+      els.eventName.addEventListener("input", (e) => updateField("eventName", 0, e.target.value));
+      els.commissionPercent.addEventListener("input", (e) => updateField("commissionPercent", 0, e.target.value));
+
+      els.addDrinkBtn.addEventListener("click", addDrink);
+      els.addDeductionBtn.addEventListener("click", addDeduction);
+      els.saveConfigBtn.addEventListener("click", () => saveState("Konfig gespeichert"));
+      els.saveSettlementBtn.addEventListener("click", saveSettlement);
+      els.newSettlementBtn.addEventListener("click", newSettlement);
+      els.printBtn.addEventListener("click", () => window.print());
+
+      window.addEventListener("beforeunload", () => {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      });
+
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", async () => {
+          try {
+            await navigator.serviceWorker.register("./service-worker.js");
+          } catch (err) {
+            console.warn("Service Worker Registrierung fehlgeschlagen:", err);
+          }
+        });
+      }
+
+      render();
+      setStatus("Bereit", true);
+    })();
+  </script>
 </body>
 </html>
