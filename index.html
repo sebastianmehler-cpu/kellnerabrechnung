@@ -269,10 +269,9 @@
 
     .row {
       display: grid;
-      grid-template-columns: 1.6fr 0.55fr 0.7fr 0.7fr auto;
-      gap: 6px;
-      align-items: center;
-      padding: 8px;
+      grid-template-columns: 1fr;
+      gap: 8px;
+      padding: 10px;
       border-radius: 16px;
       border: 1px solid var(--line);
       background: rgba(255,255,255,0.28);
@@ -283,7 +282,6 @@
       grid-template-columns: 1fr auto;
       gap: 8px;
       align-items: center;
-      margin-bottom: 8px;
     }
 
     .row-bottom {
@@ -313,9 +311,10 @@
     .name-cell {
       font-size: 16px;
       font-weight: 600;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      white-space: normal;
+      overflow: visible;
+      text-overflow: clip;
+      line-height: 1.2;
     }
 
     .num {
@@ -387,43 +386,61 @@
       line-height: 1.4;
     }
 
+    .print-only {
+      display: none;
+    }
+
     @media (max-width: 640px) {
       .form-grid { grid-template-columns: 1fr; }
       .dashboard { grid-template-columns: 1fr 1fr; }
       .section-header { flex-direction: column; align-items: flex-start; }
       .table-head { grid-template-columns: 1.4fr 0.5fr 0.65fr 0.65fr auto; }
-      .row { grid-template-columns: 1.4fr 0.5fr 0.65fr 0.65fr auto; }
+      .row-bottom { grid-template-columns: 0.5fr 0.65fr 0.65fr auto; }
     }
 
     @media (max-width: 430px) {
       .app { padding-left: 8px; padding-right: 8px; }
       .titlecard, .section { border-radius: 18px; }
       .table-head {
-        grid-template-columns: 1fr;
-        gap: 0;
-        padding-bottom: 0;
         display: none;
       }
       .row {
-        grid-template-columns: 1fr;
-        gap: 8px;
         padding: 10px;
-      }
-      .row-top {
-        grid-template-columns: 1fr auto;
-      }
-      .row-bottom {
-        grid-template-columns: 1fr 1fr 1fr auto;
       }
       .cell { padding: 11px 7px; }
       .btn { padding: 0 10px; }
       .metric { min-height: 92px; padding: 12px; }
-      .name-cell {
-        white-space: normal;
-        overflow: visible;
-        text-overflow: clip;
-        line-height: 1.2;
-      }
+    }
+
+    @media print {
+      body { background: white; color: black; }
+      .no-print { display: none !important; }
+      .print-only { display: block !important; }
+      .section, .titlecard { box-shadow: none; background: white; }
+      .app { max-width: none; padding: 0; }
+      .row { break-inside: avoid; }
+      .table-head { display: grid !important; }
+    }
+
+    .print-summary {
+      margin-top: 18px;
+      padding: 14px;
+      border: 1px solid #ccc;
+      border-radius: 12px;
+    }
+
+    .print-summary h3 {
+      margin: 0 0 10px;
+      font-size: 1.05rem;
+    }
+
+    .print-list {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .print-list li {
+      margin: 4px 0;
     }
   </style>
 </head>
@@ -549,6 +566,8 @@
           <div class="note">
             Auf dem iPhone: <strong>Teilen → Zum Home-Bildschirm</strong>.
           </div>
+
+          <div class="print-only print-summary" id="printSummary"></div>
         </div>
       </section>
     </div>
@@ -556,7 +575,7 @@
 
   <script>
     (() => {
-      const STORAGE_KEY = "abrechner3000_state_v8";
+      const STORAGE_KEY = "abrechner3000_state_v9";
 
       const state = {
         eventDate: "",
@@ -583,7 +602,8 @@
         saveConfigBtn: document.getElementById("saveConfigBtn"),
         saveSettlementBtn: document.getElementById("saveSettlementBtn"),
         newSettlementBtn: document.getElementById("newSettlementBtn"),
-        printBtn: document.getElementById("printBtn")
+        printBtn: document.getElementById("printBtn"),
+        printSummary: document.getElementById("printSummary")
       };
 
       let saveTimer = null;
@@ -699,6 +719,28 @@
         els.commissionPercent.value = state.commissionPercent;
         renderTables();
         renderDashboard();
+        renderPrintSummary();
+      }
+
+      function renderPrintSummary() {
+        const t = calc();
+        const drinksList = state.drinks.map(d => `<li>${escapeHtml(d.name)} — ${d.qty} × ${money(d.price)} = ${money(num(d.qty) * num(d.price))}</li>`).join("");
+        const deductionsList = state.deductions.map(d => `<li>${escapeHtml(d.name)} — ${d.qty} × ${money(d.value)} = ${money(num(d.qty) * num(d.value))}</li>`).join("");
+
+        els.printSummary.innerHTML = `
+          <h3>Abrechnung</h3>
+          <p><strong>Veranstaltung:</strong> ${escapeHtml(state.eventName || "-")}</p>
+          <p><strong>Datum:</strong> ${escapeHtml(state.eventDate || "-")}</p>
+          <p><strong>Provision:</strong> ${escapeHtml(String(state.commissionPercent))}%</p>
+          <p><strong>Umsatz:</strong> ${money(t.revenue)}</p>
+          <p><strong>Provision:</strong> ${money(t.commission)}</p>
+          <p><strong>Abzüge:</strong> ${money(t.deductions)}</p>
+          <p><strong>Auszahlung:</strong> ${money(t.payout)}</p>
+          <h3>Getränke</h3>
+          <ul class="print-list">${drinksList || "<li>Keine Getränke</li>"}</ul>
+          <h3>Abzüge</h3>
+          <ul class="print-list">${deductionsList || "<li>Keine Abzüge</li>"}</ul>
+        `;
       }
 
       function updateSumForRow(kind, index) {
@@ -724,6 +766,7 @@
         if (kind.startsWith("deduction-")) updateSumForRow("deduction", index);
 
         renderDashboard();
+        renderPrintSummary();
         saveDebounced();
       }
 
@@ -731,6 +774,7 @@
         state.drinks.push({ name: "Neues Getränk", qty: 0, price: 0 });
         renderTables();
         renderDashboard();
+        renderPrintSummary();
         save("Getränk hinzugefügt");
       }
 
@@ -738,6 +782,7 @@
         state.deductions.push({ name: "Neuer Abzug", qty: 0, value: 0 });
         renderTables();
         renderDashboard();
+        renderPrintSummary();
         save("Abzug hinzugefügt");
       }
 
@@ -746,6 +791,7 @@
         if (!state.drinks.length) state.drinks.push({ name: "Neues Getränk", qty: 0, price: 0 });
         renderTables();
         renderDashboard();
+        renderPrintSummary();
         save("Getränk gelöscht");
       }
 
@@ -754,6 +800,7 @@
         if (!state.deductions.length) state.deductions.push({ name: "Neuer Abzug", qty: 0, value: 0 });
         renderTables();
         renderDashboard();
+        renderPrintSummary();
         save("Abzug gelöscht");
       }
 
@@ -776,6 +823,7 @@
         state.deductions = state.deductions.map(d => ({ ...d, qty: 0 }));
         renderTables();
         renderDashboard();
+        renderPrintSummary();
         save("Neue Abrechnung");
       }
 
