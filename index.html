@@ -28,6 +28,7 @@
       --radius: 22px;
       --tap: 54px;
       --maxw: 760px;
+      --header-h: 132px;
     }
 
     @media (prefers-color-scheme: dark) {
@@ -67,27 +68,29 @@
       -moz-osx-font-smoothing: grayscale;
     }
 
-    .app {
-      max-width: var(--maxw);
-      margin: 0 auto;
-      padding: calc(env(safe-area-inset-top) + 10px) 10px calc(env(safe-area-inset-bottom) + 20px);
-    }
-
     .header {
-      position: sticky;
+      position: fixed;
       top: 0;
-      z-index: 100;
-      margin: 0 -10px 12px;
-      padding: 0 10px 10px;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      padding-top: env(safe-area-inset-top);
       background: linear-gradient(180deg, rgba(243,246,251,0.96), rgba(243,246,251,0.72));
       backdrop-filter: blur(18px);
       -webkit-backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
     }
 
     @media (prefers-color-scheme: dark) {
       .header {
         background: linear-gradient(180deg, rgba(11,18,32,0.96), rgba(11,18,32,0.72));
       }
+    }
+
+    .header-inner {
+      max-width: var(--maxw);
+      margin: 0 auto;
+      padding: 10px 10px 12px;
     }
 
     .titlecard {
@@ -130,6 +133,12 @@
       font-weight: 700;
       white-space: nowrap;
       font-size: 0.88rem;
+    }
+
+    .app {
+      max-width: var(--maxw);
+      margin: 0 auto;
+      padding: calc(var(--header-h) + env(safe-area-inset-top) + 18px) 10px calc(env(safe-area-inset-bottom) + 20px);
     }
 
     .stack {
@@ -246,6 +255,18 @@
       gap: 10px;
     }
 
+    .table-head {
+      display: grid;
+      grid-template-columns: 1.45fr 0.68fr 0.82fr 0.82fr auto;
+      gap: 6px;
+      padding: 0 8px 6px;
+      color: var(--muted);
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+    }
+
     .row {
       display: grid;
       grid-template-columns: 1.45fr 0.68fr 0.82fr 0.82fr auto;
@@ -354,18 +375,18 @@
     @media (max-width: 640px) {
       .form-grid { grid-template-columns: 1fr; }
       .dashboard { grid-template-columns: 1fr 1fr; }
-      .row { grid-template-columns: 1.25fr 0.62fr 0.78fr 0.78fr auto; }
+      .row, .table-head { grid-template-columns: 1.25fr 0.62fr 0.78fr 0.78fr auto; }
       .section-header { flex-direction: column; align-items: flex-start; }
     }
 
     @media (max-width: 430px) {
       .app { padding-left: 8px; padding-right: 8px; }
       .titlecard, .section { border-radius: 18px; }
-      .row {
+      .row, .table-head {
         grid-template-columns: 1.1fr 0.58fr 0.72fr 0.72fr auto;
         gap: 5px;
-        padding: 7px;
       }
+      .row { padding: 7px; }
       .cell { padding: 11px 7px; }
       .btn { padding: 0 10px; }
       .metric { min-height: 92px; padding: 12px; }
@@ -381,8 +402,8 @@
   </style>
 </head>
 <body>
-  <div class="app">
-    <div class="header no-print">
+  <div class="header no-print">
+    <div class="header-inner">
       <div class="titlecard">
         <div class="title-row">
           <div>
@@ -393,7 +414,9 @@
         </div>
       </div>
     </div>
+  </div>
 
+  <div class="app">
     <div class="stack">
       <section class="section no-print">
         <div class="section-header">
@@ -447,6 +470,9 @@
           <div class="hint">Anzahl · Preis · Summe</div>
         </div>
         <div class="section-body">
+          <div class="table-head">
+            <div>Getränk</div><div>Anzahl</div><div>Preis €</div><div>Summe €</div><div></div>
+          </div>
           <div id="drinksTable" class="table"></div>
           <div class="actions">
             <button class="btn btn-secondary" id="addDrinkBtn">+ Getränk hinzufügen</button>
@@ -460,6 +486,9 @@
           <div class="hint">Anzahl · Wert · Summe</div>
         </div>
         <div class="section-body">
+          <div class="table-head">
+            <div>Abzug</div><div>Anzahl</div><div>Wert €</div><div>Summe €</div><div></div>
+          </div>
           <div id="deductionsTable" class="table"></div>
           <div class="actions">
             <button class="btn btn-secondary" id="addDeductionBtn">+ Abzug hinzufügen</button>
@@ -501,7 +530,7 @@
 
   <script>
     (() => {
-      const STORAGE_KEY = "abrechner3000_state_v3";
+      const STORAGE_KEY = "abrechner3000_state_v5";
 
       const state = {
         eventDate: "",
@@ -581,7 +610,7 @@
 
       function saveDebounced(message = "Live aktualisiert") {
         clearTimeout(saveTimer);
-        saveTimer = setTimeout(() => save(message), 180);
+        saveTimer = setTimeout(() => save(message), 120);
       }
 
       function setStatus(text, ok = false) {
@@ -703,6 +732,14 @@
         save("Neue Abrechnung");
       }
 
+      function selectOnFocus(el) {
+        el.addEventListener("focus", () => {
+          requestAnimationFrame(() => {
+            try { el.select(); } catch {}
+          });
+        });
+      }
+
       els.eventDate.addEventListener("input", e => updateField("eventDate", 0, e.target.value));
       els.eventName.addEventListener("input", e => updateField("eventName", 0, e.target.value));
       els.commissionPercent.addEventListener("input", e => updateField("commissionPercent", 0, e.target.value));
@@ -749,6 +786,17 @@
       load();
       renderAll();
       setStatus("Bereit", true);
+
+      [
+        els.eventDate,
+        els.eventName,
+        els.commissionPercent
+      ].forEach(selectOnFocus);
+
+      const observer = new MutationObserver(() => {
+        document.querySelectorAll(".cell").forEach(selectOnFocus);
+      });
+      observer.observe(document.body, { childList: true, subtree: true });
     })();
   </script>
 </body>
