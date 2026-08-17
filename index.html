@@ -15,41 +15,33 @@
 
   <style>
     :root {
-      --bg: #f2f4f8;
-      --bg2: #e9edf5;
-      --card: rgba(255, 255, 255, 0.78);
-      --card-solid: #ffffff;
+      --bg: #f3f6fb;
+      --bg2: #e9eef7;
+      --card: rgba(255,255,255,0.82);
       --text: #0f172a;
       --muted: #64748b;
-      --line: rgba(15, 23, 42, 0.08);
+      --line: rgba(15,23,42,0.08);
       --accent: #2563eb;
-      --accent2: #0ea5e9;
       --danger: #ef4444;
       --success: #16a34a;
-      --warning: #f59e0b;
-      --shadow: 0 12px 30px rgba(15, 23, 42, 0.10);
-      --shadow2: 0 6px 18px rgba(15, 23, 42, 0.08);
+      --shadow: 0 12px 30px rgba(15,23,42,0.10);
       --radius: 22px;
-      --radius-sm: 16px;
-      --tap: 52px;
+      --tap: 54px;
+      --maxw: 760px;
     }
 
     @media (prefers-color-scheme: dark) {
       :root {
         --bg: #0b1220;
         --bg2: #111827;
-        --card: rgba(17, 24, 39, 0.78);
-        --card-solid: #111827;
+        --card: rgba(17,24,39,0.84);
         --text: #e5e7eb;
         --muted: #94a3b8;
-        --line: rgba(255, 255, 255, 0.08);
+        --line: rgba(255,255,255,0.08);
         --accent: #60a5fa;
-        --accent2: #38bdf8;
         --danger: #f87171;
         --success: #4ade80;
-        --warning: #fbbf24;
-        --shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
-        --shadow2: 0 6px 18px rgba(0, 0, 0, 0.25);
+        --shadow: 0 12px 30px rgba(0,0,0,0.35);
       }
     }
 
@@ -59,122 +51,128 @@
       text-size-adjust: 100%;
       touch-action: manipulation;
     }
+
     body {
       margin: 0;
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       background:
-        radial-gradient(circle at top left, rgba(37, 99, 235, 0.12), transparent 30%),
-        radial-gradient(circle at top right, rgba(14, 165, 233, 0.10), transparent 28%),
+        radial-gradient(circle at top left, rgba(37,99,235,0.12), transparent 30%),
+        radial-gradient(circle at top right, rgba(14,165,233,0.10), transparent 28%),
         linear-gradient(180deg, var(--bg), var(--bg2));
       color: var(--text);
       min-height: 100vh;
       min-height: 100dvh;
+      overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
 
-    button, input {
-      font: inherit;
-    }
-
     .app {
-      max-width: 980px;
+      max-width: var(--maxw);
       margin: 0 auto;
-      padding: calc(env(safe-area-inset-top) + 14px) 14px calc(env(safe-area-inset-bottom) + 24px);
+      padding: calc(env(safe-area-inset-top) + 10px) 10px calc(env(safe-area-inset-bottom) + 20px);
     }
 
-    .topbar {
-      display: grid;
-      gap: 12px;
-      margin-bottom: 14px;
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      margin: 0 -10px 12px;
+      padding: 0 10px 10px;
+      background: linear-gradient(180deg, rgba(243,246,251,0.96), rgba(243,246,251,0.72));
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .header {
+        background: linear-gradient(180deg, rgba(11,18,32,0.96), rgba(11,18,32,0.72));
+      }
     }
 
     .titlecard {
       background: var(--card);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
       border: 1px solid var(--line);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
-      padding: 18px;
+      padding: 14px 14px 12px;
     }
 
     .title-row {
       display: flex;
-      align-items: flex-start;
       justify-content: space-between;
-      gap: 12px;
-      flex-wrap: wrap;
+      gap: 10px;
+      align-items: flex-start;
     }
 
     h1 {
       margin: 0;
-      font-size: clamp(1.5rem, 4vw, 2.2rem);
-      line-height: 1.1;
+      font-size: clamp(1.25rem, 5vw, 1.9rem);
+      line-height: 1.08;
       letter-spacing: -0.03em;
     }
 
     .subtitle {
       margin-top: 6px;
       color: var(--muted);
-      font-size: 0.95rem;
+      font-size: 0.9rem;
+      line-height: 1.35;
     }
 
     .status {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      padding: 10px 12px;
+      padding: 9px 11px;
       border-radius: 999px;
-      background: rgba(37, 99, 235, 0.10);
+      background: rgba(37,99,235,0.10);
       color: var(--accent);
       font-weight: 700;
       white-space: nowrap;
+      font-size: 0.88rem;
     }
 
-    .grid {
+    .stack {
       display: grid;
-      gap: 14px;
+      gap: 12px;
     }
 
     .section {
       background: var(--card);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
       border: 1px solid var(--line);
       border-radius: var(--radius);
-      box-shadow: var(--shadow2);
+      box-shadow: 0 8px 20px rgba(15,23,42,0.08);
       overflow: hidden;
     }
 
     .section-header {
-      padding: 16px 16px 12px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
+      padding: 14px 14px 10px;
       border-bottom: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: center;
     }
 
     .section-header h2 {
       margin: 0;
-      font-size: 1.05rem;
+      font-size: 1rem;
       letter-spacing: -0.02em;
     }
 
-    .section-header .hint {
+    .hint {
       color: var(--muted);
-      font-size: 0.9rem;
+      font-size: 0.86rem;
     }
 
     .section-body {
-      padding: 14px 16px 16px;
+      padding: 12px 14px 14px;
     }
 
     .form-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 12px;
+      gap: 10px;
     }
 
     .field {
@@ -183,77 +181,64 @@
     }
 
     .field label {
-      font-size: 0.88rem;
       color: var(--muted);
-      font-weight: 600;
+      font-size: 0.85rem;
+      font-weight: 700;
     }
 
     .input {
       width: 100%;
+      min-height: var(--tap);
+      border-radius: 16px;
       border: 1px solid var(--line);
       background: rgba(255,255,255,0.55);
       color: var(--text);
-      border-radius: 16px;
       padding: 14px 14px;
-      min-height: var(--tap);
       outline: none;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.35);
+      font-size: 16px;
     }
 
     @media (prefers-color-scheme: dark) {
-      .input {
-        background: rgba(255,255,255,0.04);
-        box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
-      }
+      .input { background: rgba(255,255,255,0.04); }
     }
 
     .input:focus {
-      border-color: rgba(37, 99, 235, 0.55);
-      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+      border-color: rgba(37,99,235,0.55);
+      box-shadow: 0 0 0 4px rgba(37,99,235,0.12);
     }
 
     .dashboard {
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 12px;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
     }
 
     .metric {
-      padding: 16px;
-      border-radius: 20px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.55), rgba(255,255,255,0.28));
+      border-radius: 18px;
       border: 1px solid var(--line);
-      min-height: 110px;
+      padding: 14px;
+      min-height: 96px;
       display: grid;
       align-content: space-between;
+      background: rgba(255,255,255,0.35);
     }
+
+    .metric.primary { background: linear-gradient(180deg, rgba(37,99,235,0.16), rgba(37,99,235,0.06)); }
+    .metric.success { background: linear-gradient(180deg, rgba(22,163,74,0.16), rgba(22,163,74,0.06)); }
+    .metric.danger { background: linear-gradient(180deg, rgba(239,68,68,0.16), rgba(239,68,68,0.06)); }
+    .metric.out { background: linear-gradient(180deg, rgba(14,165,233,0.16), rgba(14,165,233,0.06)); }
 
     .metric .label {
       color: var(--muted);
+      font-size: 0.88rem;
       font-weight: 700;
-      font-size: 0.92rem;
     }
 
     .metric .value {
-      font-size: clamp(1.35rem, 4vw, 2rem);
+      font-size: clamp(1.15rem, 5vw, 1.7rem);
       font-weight: 800;
       letter-spacing: -0.03em;
-    }
-
-    .metric.primary {
-      background: linear-gradient(180deg, rgba(37,99,235,0.16), rgba(37,99,235,0.06));
-    }
-
-    .metric.success {
-      background: linear-gradient(180deg, rgba(22,163,74,0.16), rgba(22,163,74,0.06));
-    }
-
-    .metric.danger {
-      background: linear-gradient(180deg, rgba(239,68,68,0.16), rgba(239,68,68,0.06));
-    }
-
-    .metric.out {
-      background: linear-gradient(180deg, rgba(14,165,233,0.16), rgba(14,165,233,0.06));
+      line-height: 1.05;
     }
 
     .table {
@@ -263,58 +248,63 @@
 
     .row {
       display: grid;
-      grid-template-columns: 1.6fr 0.7fr 0.9fr 0.9fr auto;
-      gap: 10px;
+      grid-template-columns: 1.45fr 0.68fr 0.82fr 0.82fr auto;
+      gap: 6px;
       align-items: center;
-      padding: 10px;
-      border-radius: 18px;
-      background: rgba(255,255,255,0.35);
+      padding: 8px;
+      border-radius: 16px;
       border: 1px solid var(--line);
+      background: rgba(255,255,255,0.28);
     }
 
-    .row.debit {
-      grid-template-columns: 1.6fr 0.7fr 0.9fr 0.9fr auto;
-    }
-
-    .cell-input {
+    .cell {
       width: 100%;
       min-width: 0;
-      border: 1px solid transparent;
+      min-height: var(--tap);
+      border: 0;
+      border-radius: 14px;
       background: transparent;
       color: var(--text);
-      padding: 12px 10px;
-      border-radius: 14px;
+      padding: 12px 8px;
       outline: none;
-      min-height: var(--tap);
+      font-size: 16px;
     }
 
-    .cell-input:focus {
+    .cell:focus {
       background: rgba(37,99,235,0.08);
-      border-color: rgba(37,99,235,0.18);
     }
 
-    .cell-number {
+    .num {
       text-align: right;
       font-variant-numeric: tabular-nums;
     }
 
+    .sum {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding: 0 8px;
+      min-height: var(--tap);
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+    }
+
     .btn {
+      min-height: var(--tap);
       border: 0;
       border-radius: 16px;
-      min-height: var(--tap);
-      padding: 0 16px;
+      padding: 0 14px;
       font-weight: 700;
       cursor: pointer;
-      transition: transform 0.06s ease, opacity 0.2s ease, background 0.2s ease;
-      user-select: none;
       -webkit-tap-highlight-color: transparent;
+      user-select: none;
+      font-size: 0.95rem;
     }
 
     .btn:active { transform: scale(0.98); }
     .btn-primary {
       background: linear-gradient(180deg, var(--accent), #1d4ed8);
       color: white;
-      box-shadow: 0 10px 20px rgba(37,99,235,0.22);
     }
     .btn-secondary {
       background: rgba(37,99,235,0.10);
@@ -323,6 +313,9 @@
     .btn-danger {
       background: rgba(239,68,68,0.12);
       color: var(--danger);
+      padding: 0 10px;
+      min-width: 52px;
+      font-size: 1.15rem;
     }
     .btn-ghost {
       background: rgba(100,116,139,0.10);
@@ -330,63 +323,52 @@
     }
 
     .actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 14px;
-    }
-
-    .footer-actions {
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+      grid-template-columns: 1fr;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .action-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
       gap: 10px;
     }
 
-    .small-note {
-      color: var(--muted);
-      font-size: 0.88rem;
+    .note {
       margin-top: 10px;
+      color: var(--muted);
+      font-size: 0.86rem;
+      line-height: 1.4;
     }
 
     .empty {
-      padding: 18px;
-      color: var(--muted);
+      padding: 16px;
       text-align: center;
+      color: var(--muted);
       border: 1px dashed var(--line);
-      border-radius: 18px;
-      background: rgba(255,255,255,0.22);
-    }
-
-    .sticky {
-      position: sticky;
-      top: calc(env(safe-area-inset-top) + 10px);
-      z-index: 10;
-    }
-
-    @media (max-width: 860px) {
-      .dashboard { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .footer-actions { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      border-radius: 16px;
+      background: rgba(255,255,255,0.18);
     }
 
     @media (max-width: 640px) {
       .form-grid { grid-template-columns: 1fr; }
-      .row, .row.debit {
-        grid-template-columns: 1.4fr 0.7fr 0.9fr 0.9fr auto;
-      }
-      .section-header {
-        align-items: flex-start;
-        flex-direction: column;
-      }
+      .dashboard { grid-template-columns: 1fr 1fr; }
+      .row { grid-template-columns: 1.25fr 0.62fr 0.78fr 0.78fr auto; }
+      .section-header { flex-direction: column; align-items: flex-start; }
     }
 
-    @media (max-width: 520px) {
-      .app { padding-left: 10px; padding-right: 10px; }
-      .row, .row.debit {
-        grid-template-columns: 1fr 0.7fr 0.8fr 0.8fr auto;
-        gap: 8px;
+    @media (max-width: 430px) {
+      .app { padding-left: 8px; padding-right: 8px; }
+      .titlecard, .section { border-radius: 18px; }
+      .row {
+        grid-template-columns: 1.1fr 0.58fr 0.72fr 0.72fr auto;
+        gap: 5px;
+        padding: 7px;
       }
-      .cell-input { padding: 12px 8px; }
-      .btn { padding: 0 12px; }
+      .cell { padding: 11px 7px; }
+      .btn { padding: 0 10px; }
+      .metric { min-height: 92px; padding: 12px; }
     }
 
     @media print {
@@ -400,19 +382,19 @@
 </head>
 <body>
   <div class="app">
-    <div class="topbar sticky no-print">
+    <div class="header no-print">
       <div class="titlecard">
         <div class="title-row">
           <div>
             <h1>🍺 Abrechner 3000</h1>
-            <div class="subtitle">Keller-, Vereins- und Festabrechnung · offlinefähig · iPhone-optimiert</div>
+            <div class="subtitle">Keller-, Vereins- und Festabrechnung · iPhone Hochformat · offlinefähig</div>
           </div>
           <div class="status" id="saveStatus">● Bereit</div>
         </div>
       </div>
     </div>
 
-    <div class="grid">
+    <div class="stack">
       <section class="section no-print">
         <div class="section-header">
           <h2>📅 Veranstaltung</h2>
@@ -435,7 +417,7 @@
       <section class="section">
         <div class="section-header">
           <h2>📊 Dashboard</h2>
-          <div class="hint">Live-Berechnung</div>
+          <div class="hint">Live</div>
         </div>
         <div class="section-body">
           <div class="dashboard">
@@ -488,7 +470,7 @@
       <section class="section no-print">
         <div class="section-header">
           <h2>⚙️ Konfiguration</h2>
-          <div class="hint">Provision & Speicherung</div>
+          <div class="hint">Speichern</div>
         </div>
         <div class="section-body">
           <div class="form-grid">
@@ -502,15 +484,15 @@
             </div>
           </div>
 
-          <div class="actions">
+          <div class="action-grid" style="margin-top:12px;">
             <button class="btn btn-primary" id="saveConfigBtn">⚙️ Konfig speichern</button>
             <button class="btn btn-ghost" id="saveSettlementBtn">💾 Abrechnung speichern</button>
             <button class="btn btn-ghost" id="newSettlementBtn">🆕 Neu</button>
             <button class="btn btn-ghost" id="printBtn">📄 PDF</button>
           </div>
 
-          <div class="small-note">
-            Tipp: Auf dem iPhone über <strong>Teilen → Zum Home-Bildschirm</strong> installierbar.
+          <div class="note">
+            Auf dem iPhone: <strong>Teilen → Zum Home-Bildschirm</strong>.
           </div>
         </div>
       </section>
@@ -519,17 +501,14 @@
 
   <script>
     (() => {
-      const STORAGE_KEY = "abrechner3000_state_v1";
-      const DEFAULT_STATE = {
+      const STORAGE_KEY = "abrechner3000_state_v3";
+
+      const state = {
         eventDate: "",
         eventName: "",
         commissionPercent: 10,
-        drinks: [
-          { name: "Neues Getränk", qty: 0, price: 0 }
-        ],
-        deductions: [
-          { name: "Neuer Abzug", qty: 0, value: 0 }
-        ],
+        drinks: [{ name: "Neues Getränk", qty: 0, price: 0 }],
+        deductions: [{ name: "Neuer Abzug", qty: 0, value: 0 }],
         settlements: []
       };
 
@@ -552,39 +531,10 @@
         printBtn: document.getElementById("printBtn")
       };
 
-      let state = loadState();
-
-      function loadState() {
-        try {
-          const raw = localStorage.getItem(STORAGE_KEY);
-          if (!raw) return structuredClone(DEFAULT_STATE);
-          const parsed = JSON.parse(raw);
-          return {
-            ...structuredClone(DEFAULT_STATE),
-            ...parsed,
-            drinks: Array.isArray(parsed.drinks) && parsed.drinks.length ? parsed.drinks : structuredClone(DEFAULT_STATE.drinks),
-            deductions: Array.isArray(parsed.deductions) && parsed.deductions.length ? parsed.deductions : structuredClone(DEFAULT_STATE.deductions),
-            settlements: Array.isArray(parsed.settlements) ? parsed.settlements : []
-          };
-        } catch {
-          return structuredClone(DEFAULT_STATE);
-        }
-      }
-
-      function saveState(message = "Gespeichert") {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-        setStatus(message, true);
-      }
-
-      function setStatus(text, ok = false) {
-        els.saveStatus.textContent = ok ? `● ${text}` : text;
-        els.saveStatus.style.background = ok ? "rgba(22,163,74,0.12)" : "rgba(37,99,235,0.10)";
-        els.saveStatus.style.color = ok ? "var(--success)" : "var(--accent)";
-      }
+      let saveTimer = null;
 
       function money(n) {
-        const value = Number.isFinite(n) ? n : 0;
-        return value.toLocaleString("de-DE", { style: "currency", currency: "EUR" });
+        return (Number.isFinite(n) ? n : 0).toLocaleString("de-DE", { style: "currency", currency: "EUR" });
       }
 
       function num(v) {
@@ -597,46 +547,6 @@
         return Number.isFinite(n) ? n : 0;
       }
 
-      function calc() {
-        const revenue = state.drinks.reduce((sum, d) => sum + (num(d.qty) * num(d.price)), 0);
-        const deductions = state.deductions.reduce((sum, d) => sum + (num(d.qty) * num(d.value)), 0);
-        const commission = revenue * (num(state.commissionPercent) / 100);
-        const payout = revenue - commission - deductions;
-        return { revenue, deductions, commission, payout };
-      }
-
-      function render() {
-        els.eventDate.value = state.eventDate || "";
-        els.eventName.value = state.eventName || "";
-        els.commissionPercent.value = state.commissionPercent ?? 0;
-
-        els.drinksTable.innerHTML = state.drinks.map((d, i) => `
-          <div class="row">
-            <input class="cell-input" data-type="drink-name" data-index="${i}" type="text" value="${escapeHtml(d.name)}" placeholder="Getränk" />
-            <input class="cell-input cell-number" data-type="drink-qty" data-index="${i}" type="number" inputmode="numeric" pattern="[0-9]*" min="0" step="1" value="${escapeHtml(d.qty)}" placeholder="0" />
-            <input class="cell-input cell-number" data-type="drink-price" data-index="${i}" type="number" inputmode="decimal" step="0.01" min="0" value="${escapeHtml(d.price)}" placeholder="0,00" />
-            <div class="cell-input cell-number" aria-label="Summe">${money(num(d.qty) * num(d.price))}</div>
-            <button class="btn btn-danger" data-action="delete-drink" data-index="${i}">Löschen</button>
-          </div>
-        `).join("") || `<div class="empty">Keine Getränke vorhanden.</div>`;
-
-        els.deductionsTable.innerHTML = state.deductions.map((d, i) => `
-          <div class="row debit">
-            <input class="cell-input" data-type="deduction-name" data-index="${i}" type="text" value="${escapeHtml(d.name)}" placeholder="Abzug" />
-            <input class="cell-input cell-number" data-type="deduction-qty" data-index="${i}" type="number" inputmode="numeric" pattern="[0-9]*" min="0" step="1" value="${escapeHtml(d.qty)}" placeholder="0" />
-            <input class="cell-input cell-number" data-type="deduction-value" data-index="${i}" type="number" inputmode="decimal" step="0.01" min="0" value="${escapeHtml(d.value)}" placeholder="0,00" />
-            <div class="cell-input cell-number" aria-label="Summe">${money(num(d.qty) * num(d.value))}</div>
-            <button class="btn btn-danger" data-action="delete-deduction" data-index="${i}">Löschen</button>
-          </div>
-        `).join("") || `<div class="empty">Keine Abzüge vorhanden.</div>`;
-
-        const totals = calc();
-        els.metricRevenue.textContent = money(totals.revenue);
-        els.metricCommission.textContent = money(totals.commission);
-        els.metricDeductions.textContent = money(totals.deductions);
-        els.metricPayout.textContent = money(totals.payout);
-      }
-
       function escapeHtml(value) {
         return String(value ?? "")
           .replaceAll("&", "&amp;")
@@ -646,47 +556,129 @@
           .replaceAll("'", "&#39;");
       }
 
-      function updateField(type, index, value) {
-        if (type === "eventDate") state.eventDate = value;
-        if (type === "eventName") state.eventName = value;
-        if (type === "commissionPercent") state.commissionPercent = int(value);
+      function load() {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          if (!raw) return;
+          const saved = JSON.parse(raw);
+          if (saved && typeof saved === "object") {
+            state.eventDate = saved.eventDate || "";
+            state.eventName = saved.eventName || "";
+            state.commissionPercent = Number.isFinite(saved.commissionPercent) ? saved.commissionPercent : 10;
+            state.drinks = Array.isArray(saved.drinks) && saved.drinks.length ? saved.drinks : state.drinks;
+            state.deductions = Array.isArray(saved.deductions) && saved.deductions.length ? saved.deductions : state.deductions;
+            state.settlements = Array.isArray(saved.settlements) ? saved.settlements : [];
+          }
+        } catch (e) {
+          console.warn("Load failed", e);
+        }
+      }
 
-        if (type === "drink-name") state.drinks[index].name = value;
-        if (type === "drink-qty") state.drinks[index].qty = int(value);
-        if (type === "drink-price") state.drinks[index].price = num(value);
+      function save(message = "Gespeichert") {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        setStatus(message, true);
+      }
 
-        if (type === "deduction-name") state.deductions[index].name = value;
-        if (type === "deduction-qty") state.deductions[index].qty = int(value);
-        if (type === "deduction-value") state.deductions[index].value = num(value);
+      function saveDebounced(message = "Live aktualisiert") {
+        clearTimeout(saveTimer);
+        saveTimer = setTimeout(() => save(message), 180);
+      }
 
-        render();
-        saveState("Live aktualisiert");
+      function setStatus(text, ok = false) {
+        els.saveStatus.textContent = ok ? `● ${text}` : text;
+        els.saveStatus.style.background = ok ? "rgba(22,163,74,0.12)" : "rgba(37,99,235,0.10)";
+        els.saveStatus.style.color = ok ? "var(--success)" : "var(--accent)";
+      }
+
+      function calc() {
+        const revenue = state.drinks.reduce((s, d) => s + num(d.qty) * num(d.price), 0);
+        const deductions = state.deductions.reduce((s, d) => s + num(d.qty) * num(d.value), 0);
+        const commission = revenue * (num(state.commissionPercent) / 100);
+        const payout = revenue - commission - deductions;
+        return { revenue, deductions, commission, payout };
+      }
+
+      function renderDashboard() {
+        const t = calc();
+        els.metricRevenue.textContent = money(t.revenue);
+        els.metricCommission.textContent = money(t.commission);
+        els.metricDeductions.textContent = money(t.deductions);
+        els.metricPayout.textContent = money(t.payout);
+      }
+
+      function renderTables() {
+        els.drinksTable.innerHTML = state.drinks.map((d, i) => `
+          <div class="row">
+            <input class="cell" data-kind="drink-name" data-index="${i}" type="text" value="${escapeHtml(d.name)}" placeholder="Getränk" />
+            <input class="cell num" data-kind="drink-qty" data-index="${i}" type="number" inputmode="numeric" pattern="[0-9]*" min="0" step="1" value="${escapeHtml(d.qty)}" placeholder="0" />
+            <input class="cell num" data-kind="drink-price" data-index="${i}" type="number" inputmode="decimal" step="0.01" min="0" value="${escapeHtml(d.price)}" placeholder="0,00" />
+            <div class="sum">${money(num(d.qty) * num(d.price))}</div>
+            <button class="btn btn-danger" data-action="delete-drink" data-index="${i}" aria-label="Getränk löschen">🗑️</button>
+          </div>
+        `).join("");
+
+        els.deductionsTable.innerHTML = state.deductions.map((d, i) => `
+          <div class="row">
+            <input class="cell" data-kind="deduction-name" data-index="${i}" type="text" value="${escapeHtml(d.name)}" placeholder="Abzug" />
+            <input class="cell num" data-kind="deduction-qty" data-index="${i}" type="number" inputmode="numeric" pattern="[0-9]*" min="0" step="1" value="${escapeHtml(d.qty)}" placeholder="0" />
+            <input class="cell num" data-kind="deduction-value" data-index="${i}" type="number" inputmode="decimal" step="0.01" min="0" value="${escapeHtml(d.value)}" placeholder="0,00" />
+            <div class="sum">${money(num(d.qty) * num(d.value))}</div>
+            <button class="btn btn-danger" data-action="delete-deduction" data-index="${i}" aria-label="Abzug löschen">🗑️</button>
+          </div>
+        `).join("");
+      }
+
+      function renderAll() {
+        els.eventDate.value = state.eventDate;
+        els.eventName.value = state.eventName;
+        els.commissionPercent.value = state.commissionPercent;
+        renderTables();
+        renderDashboard();
+      }
+
+      function updateField(kind, index, value) {
+        if (kind === "eventDate") state.eventDate = value;
+        else if (kind === "eventName") state.eventName = value;
+        else if (kind === "commissionPercent") state.commissionPercent = int(value);
+        else if (kind === "drink-name") state.drinks[index].name = value;
+        else if (kind === "drink-qty") state.drinks[index].qty = int(value);
+        else if (kind === "drink-price") state.drinks[index].price = num(value);
+        else if (kind === "deduction-name") state.deductions[index].name = value;
+        else if (kind === "deduction-qty") state.deductions[index].qty = int(value);
+        else if (kind === "deduction-value") state.deductions[index].value = num(value);
+
+        renderDashboard();
+        saveDebounced();
       }
 
       function addDrink() {
         state.drinks.push({ name: "Neues Getränk", qty: 0, price: 0 });
-        render();
-        saveState("Getränk hinzugefügt");
+        renderTables();
+        renderDashboard();
+        save("Getränk hinzugefügt");
       }
 
       function addDeduction() {
         state.deductions.push({ name: "Neuer Abzug", qty: 0, value: 0 });
-        render();
-        saveState("Abzug hinzugefügt");
+        renderTables();
+        renderDashboard();
+        save("Abzug hinzugefügt");
       }
 
       function deleteDrink(index) {
         state.drinks.splice(index, 1);
         if (!state.drinks.length) state.drinks.push({ name: "Neues Getränk", qty: 0, price: 0 });
-        render();
-        saveState("Getränk gelöscht");
+        renderTables();
+        renderDashboard();
+        save("Getränk gelöscht");
       }
 
       function deleteDeduction(index) {
         state.deductions.splice(index, 1);
         if (!state.deductions.length) state.deductions.push({ name: "Neuer Abzug", qty: 0, value: 0 });
-        render();
-        saveState("Abzug gelöscht");
+        renderTables();
+        renderDashboard();
+        save("Abzug gelöscht");
       }
 
       function saveSettlement() {
@@ -700,64 +692,62 @@
           deductions: structuredClone(state.deductions),
           totals
         });
-        saveState("Abrechnung gespeichert");
+        save("Abrechnung gespeichert");
       }
 
       function newSettlement() {
         state.drinks = state.drinks.map(d => ({ ...d, qty: 0 }));
         state.deductions = state.deductions.map(d => ({ ...d, qty: 0 }));
-        render();
-        saveState("Neue Abrechnung");
+        renderTables();
+        renderDashboard();
+        save("Neue Abrechnung");
       }
 
-      els.drinksTable.addEventListener("input", (e) => {
+      els.eventDate.addEventListener("input", e => updateField("eventDate", 0, e.target.value));
+      els.eventName.addEventListener("input", e => updateField("eventName", 0, e.target.value));
+      els.commissionPercent.addEventListener("input", e => updateField("commissionPercent", 0, e.target.value));
+
+      els.drinksTable.addEventListener("input", e => {
         const t = e.target;
-        if (!t.matches("[data-type]")) return;
-        updateField(t.dataset.type, Number(t.dataset.index), t.value);
+        if (!t.matches("[data-kind]")) return;
+        updateField(t.dataset.kind, Number(t.dataset.index), t.value);
       });
 
-      els.deductionsTable.addEventListener("input", (e) => {
+      els.deductionsTable.addEventListener("input", e => {
         const t = e.target;
-        if (!t.matches("[data-type]")) return;
-        updateField(t.dataset.type, Number(t.dataset.index), t.value);
+        if (!t.matches("[data-kind]")) return;
+        updateField(t.dataset.kind, Number(t.dataset.index), t.value);
       });
 
-      els.drinksTable.addEventListener("click", (e) => {
+      els.drinksTable.addEventListener("click", e => {
         const btn = e.target.closest("[data-action='delete-drink']");
         if (btn) deleteDrink(Number(btn.dataset.index));
       });
 
-      els.deductionsTable.addEventListener("click", (e) => {
+      els.deductionsTable.addEventListener("click", e => {
         const btn = e.target.closest("[data-action='delete-deduction']");
         if (btn) deleteDeduction(Number(btn.dataset.index));
       });
 
-      els.eventDate.addEventListener("input", (e) => updateField("eventDate", 0, e.target.value));
-      els.eventName.addEventListener("input", (e) => updateField("eventName", 0, e.target.value));
-      els.commissionPercent.addEventListener("input", (e) => updateField("commissionPercent", 0, e.target.value));
-
       els.addDrinkBtn.addEventListener("click", addDrink);
       els.addDeductionBtn.addEventListener("click", addDeduction);
-      els.saveConfigBtn.addEventListener("click", () => saveState("Konfig gespeichert"));
+      els.saveConfigBtn.addEventListener("click", () => save("Konfig gespeichert"));
       els.saveSettlementBtn.addEventListener("click", saveSettlement);
       els.newSettlementBtn.addEventListener("click", newSettlement);
       els.printBtn.addEventListener("click", () => window.print());
-
-      window.addEventListener("beforeunload", () => {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-      });
 
       if ("serviceWorker" in navigator) {
         window.addEventListener("load", async () => {
           try {
             await navigator.serviceWorker.register("./service-worker.js");
           } catch (err) {
-            console.warn("Service Worker Registrierung fehlgeschlagen:", err);
+            console.warn(err);
           }
         });
       }
 
-      render();
+      load();
+      renderAll();
       setStatus("Bereit", true);
     })();
   </script>
