@@ -17,7 +17,7 @@
     :root {
       --bg: #f2f4f8;
       --bg2: #e9edf5;
-      --card: rgba(255, 255, 255, 0.82);
+      --card: rgba(255, 255, 255, 0.78);
       --card-solid: #ffffff;
       --text: #0f172a;
       --muted: #64748b;
@@ -31,15 +31,14 @@
       --shadow2: 0 6px 18px rgba(15, 23, 42, 0.08);
       --radius: 22px;
       --radius-sm: 16px;
-      --tap: 54px;
-      --content-max: 760px;
+      --tap: 52px;
     }
 
     @media (prefers-color-scheme: dark) {
       :root {
         --bg: #0b1220;
         --bg2: #111827;
-        --card: rgba(17, 24, 39, 0.82);
+        --card: rgba(17, 24, 39, 0.78);
         --card-solid: #111827;
         --text: #e5e7eb;
         --muted: #94a3b8;
@@ -60,7 +59,6 @@
       text-size-adjust: 100%;
       touch-action: manipulation;
     }
-
     body {
       margin: 0;
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -73,7 +71,6 @@
       min-height: 100dvh;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
-      overflow-x: hidden;
     }
 
     button, input {
@@ -81,29 +78,15 @@
     }
 
     .app {
-      max-width: var(--content-max);
+      max-width: 980px;
       margin: 0 auto;
-      padding: calc(env(safe-area-inset-top) + 12px) 12px calc(env(safe-area-inset-bottom) + 22px);
+      padding: calc(env(safe-area-inset-top) + 14px) 14px calc(env(safe-area-inset-bottom) + 24px);
     }
 
-    /* FIXED HEADER */
     .topbar {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      padding-top: env(safe-area-inset-top);
-      margin: 0 -12px 14px;
-      padding-left: 12px;
-      padding-right: 12px;
-      background: linear-gradient(180deg, rgba(242,244,248,0.96), rgba(242,244,248,0.72));
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-    }
-
-    @media (prefers-color-scheme: dark) {
-      .topbar {
-        background: linear-gradient(180deg, rgba(11,18,32,0.96), rgba(11,18,32,0.72));
-      }
+      display: grid;
+      gap: 12px;
+      margin-bottom: 14px;
     }
 
     .titlecard {
@@ -113,7 +96,7 @@
       border: 1px solid var(--line);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
-      padding: 16px;
+      padding: 18px;
     }
 
     .title-row {
@@ -126,16 +109,15 @@
 
     h1 {
       margin: 0;
-      font-size: clamp(1.35rem, 5vw, 2rem);
-      line-height: 1.08;
+      font-size: clamp(1.5rem, 4vw, 2.2rem);
+      line-height: 1.1;
       letter-spacing: -0.03em;
     }
 
     .subtitle {
       margin-top: 6px;
       color: var(--muted);
-      font-size: 0.92rem;
-      line-height: 1.35;
+      font-size: 0.95rem;
     }
 
     .status {
@@ -148,7 +130,6 @@
       color: var(--accent);
       font-weight: 700;
       white-space: nowrap;
-      font-size: 0.9rem;
     }
 
     .grid {
@@ -167,27 +148,27 @@
     }
 
     .section-header {
-      padding: 15px 15px 12px;
+      padding: 16px 16px 12px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 10px;
+      gap: 12px;
       border-bottom: 1px solid var(--line);
     }
 
     .section-header h2 {
       margin: 0;
-      font-size: 1rem;
+      font-size: 1.05rem;
       letter-spacing: -0.02em;
     }
 
     .section-header .hint {
       color: var(--muted);
-      font-size: 0.88rem;
+      font-size: 0.9rem;
     }
 
     .section-body {
-      padding: 14px 15px 15px;
+      padding: 14px 16px 16px;
     }
 
     .form-grid {
@@ -202,9 +183,9 @@
     }
 
     .field label {
-      font-size: 0.86rem;
+      font-size: 0.88rem;
       color: var(--muted);
-      font-weight: 700;
+      font-weight: 600;
     }
 
     .input {
@@ -233,16 +214,16 @@
 
     .dashboard {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 12px;
     }
 
     .metric {
-      padding: 15px;
+      padding: 16px;
       border-radius: 20px;
       background: linear-gradient(180deg, rgba(255,255,255,0.55), rgba(255,255,255,0.28));
       border: 1px solid var(--line);
-      min-height: 104px;
+      min-height: 110px;
       display: grid;
       align-content: space-between;
     }
@@ -250,14 +231,13 @@
     .metric .label {
       color: var(--muted);
       font-weight: 700;
-      font-size: 0.9rem;
+      font-size: 0.92rem;
     }
 
     .metric .value {
-      font-size: clamp(1.2rem, 5vw, 1.8rem);
+      font-size: clamp(1.35rem, 4vw, 2rem);
       font-weight: 800;
       letter-spacing: -0.03em;
-      line-height: 1.05;
     }
 
     .metric.primary {
@@ -283,13 +263,17 @@
 
     .row {
       display: grid;
-      grid-template-columns: 1.55fr 0.72fr 0.9fr 0.9fr auto;
-      gap: 8px;
+      grid-template-columns: 1.6fr 0.7fr 0.9fr 0.9fr auto;
+      gap: 10px;
       align-items: center;
       padding: 10px;
       border-radius: 18px;
       background: rgba(255,255,255,0.35);
       border: 1px solid var(--line);
+    }
+
+    .row.debit {
+      grid-template-columns: 1.6fr 0.7fr 0.9fr 0.9fr auto;
     }
 
     .cell-input {
@@ -302,7 +286,6 @@
       border-radius: 14px;
       outline: none;
       min-height: var(--tap);
-      font-size: 16px;
     }
 
     .cell-input:focus {
@@ -315,17 +298,6 @@
       font-variant-numeric: tabular-nums;
     }
 
-    .sum-cell {
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      padding: 0 10px;
-      font-variant-numeric: tabular-nums;
-      font-weight: 700;
-      color: var(--text);
-      min-height: var(--tap);
-    }
-
     .btn {
       border: 0;
       border-radius: 16px;
@@ -336,7 +308,6 @@
       transition: transform 0.06s ease, opacity 0.2s ease, background 0.2s ease;
       user-select: none;
       -webkit-tap-highlight-color: transparent;
-      font-size: 0.95rem;
     }
 
     .btn:active { transform: scale(0.98); }
@@ -352,7 +323,6 @@
     .btn-danger {
       background: rgba(239,68,68,0.12);
       color: var(--danger);
-      padding: 0 12px;
     }
     .btn-ghost {
       background: rgba(100,116,139,0.10);
@@ -368,7 +338,7 @@
 
     .footer-actions {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 10px;
     }
 
@@ -376,7 +346,6 @@
       color: var(--muted);
       font-size: 0.88rem;
       margin-top: 10px;
-      line-height: 1.4;
     }
 
     .empty {
@@ -388,13 +357,21 @@
       background: rgba(255,255,255,0.22);
     }
 
-    .no-print { }
+    .sticky {
+      position: sticky;
+      top: calc(env(safe-area-inset-top) + 10px);
+      z-index: 10;
+    }
+
+    @media (max-width: 860px) {
+      .dashboard { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .footer-actions { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
 
     @media (max-width: 640px) {
       .form-grid { grid-template-columns: 1fr; }
-      .dashboard { grid-template-columns: 1fr 1fr; }
-      .row {
-        grid-template-columns: 1.35fr 0.68fr 0.82fr 0.82fr auto;
+      .row, .row.debit {
+        grid-template-columns: 1.4fr 0.7fr 0.9fr 0.9fr auto;
       }
       .section-header {
         align-items: flex-start;
@@ -402,25 +379,14 @@
       }
     }
 
-    @media (max-width: 430px) {
-      .app { padding-left: 8px; padding-right: 8px; }
-      .titlecard, .section { border-radius: 18px; }
-      .row {
-        grid-template-columns: 1.2fr 0.62fr 0.78fr 0.78fr auto;
-        gap: 6px;
-        padding: 8px;
+    @media (max-width: 520px) {
+      .app { padding-left: 10px; padding-right: 10px; }
+      .row, .row.debit {
+        grid-template-columns: 1fr 0.7fr 0.8fr 0.8fr auto;
+        gap: 8px;
       }
-      .cell-input {
-        padding: 11px 8px;
-        font-size: 16px;
-      }
-      .btn {
-        padding: 0 12px;
-      }
-      .metric {
-        min-height: 96px;
-        padding: 13px;
-      }
+      .cell-input { padding: 12px 8px; }
+      .btn { padding: 0 12px; }
     }
 
     @media print {
@@ -434,12 +400,12 @@
 </head>
 <body>
   <div class="app">
-    <div class="topbar no-print">
+    <div class="topbar sticky no-print">
       <div class="titlecard">
         <div class="title-row">
           <div>
             <h1>🍺 Abrechner 3000</h1>
-            <div class="subtitle">Keller-, Vereins- und Festabrechnung · offlinefähig · iPhone-Hochformat optimiert</div>
+            <div class="subtitle">Keller-, Vereins- und Festabrechnung · offlinefähig · iPhone-optimiert</div>
           </div>
           <div class="status" id="saveStatus">● Bereit</div>
         </div>
@@ -536,7 +502,7 @@
             </div>
           </div>
 
-          <div class="actions footer-actions">
+          <div class="actions">
             <button class="btn btn-primary" id="saveConfigBtn">⚙️ Konfig speichern</button>
             <button class="btn btn-ghost" id="saveSettlementBtn">💾 Abrechnung speichern</button>
             <button class="btn btn-ghost" id="newSettlementBtn">🆕 Neu</button>
@@ -553,13 +519,17 @@
 
   <script>
     (() => {
-      const STORAGE_KEY = "abrechner3000_state_v2";
+      const STORAGE_KEY = "abrechner3000_state_v1";
       const DEFAULT_STATE = {
         eventDate: "",
         eventName: "",
         commissionPercent: 10,
-        drinks: [{ name: "Neues Getränk", qty: 0, price: 0 }],
-        deductions: [{ name: "Neuer Abzug", qty: 0, value: 0 }],
+        drinks: [
+          { name: "Neues Getränk", qty: 0, price: 0 }
+        ],
+        deductions: [
+          { name: "Neuer Abzug", qty: 0, value: 0 }
+        ],
         settlements: []
       };
 
@@ -583,7 +553,6 @@
       };
 
       let state = loadState();
-      let saveTimer = null;
 
       function loadState() {
         try {
@@ -600,6 +569,17 @@
         } catch {
           return structuredClone(DEFAULT_STATE);
         }
+      }
+
+      function saveState(message = "Gespeichert") {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        setStatus(message, true);
+      }
+
+      function setStatus(text, ok = false) {
+        els.saveStatus.textContent = ok ? `● ${text}` : text;
+        els.saveStatus.style.background = ok ? "rgba(22,163,74,0.12)" : "rgba(37,99,235,0.10)";
+        els.saveStatus.style.color = ok ? "var(--success)" : "var(--accent)";
       }
 
       function money(n) {
@@ -625,42 +605,36 @@
         return { revenue, deductions, commission, payout };
       }
 
-      function renderTables() {
+      function render() {
+        els.eventDate.value = state.eventDate || "";
+        els.eventName.value = state.eventName || "";
+        els.commissionPercent.value = state.commissionPercent ?? 0;
+
         els.drinksTable.innerHTML = state.drinks.map((d, i) => `
           <div class="row">
             <input class="cell-input" data-type="drink-name" data-index="${i}" type="text" value="${escapeHtml(d.name)}" placeholder="Getränk" />
             <input class="cell-input cell-number" data-type="drink-qty" data-index="${i}" type="number" inputmode="numeric" pattern="[0-9]*" min="0" step="1" value="${escapeHtml(d.qty)}" placeholder="0" />
             <input class="cell-input cell-number" data-type="drink-price" data-index="${i}" type="number" inputmode="decimal" step="0.01" min="0" value="${escapeHtml(d.price)}" placeholder="0,00" />
-            <div class="sum-cell">${money(num(d.qty) * num(d.price))}</div>
+            <div class="cell-input cell-number" aria-label="Summe">${money(num(d.qty) * num(d.price))}</div>
             <button class="btn btn-danger" data-action="delete-drink" data-index="${i}">Löschen</button>
           </div>
         `).join("") || `<div class="empty">Keine Getränke vorhanden.</div>`;
 
         els.deductionsTable.innerHTML = state.deductions.map((d, i) => `
-          <div class="row">
+          <div class="row debit">
             <input class="cell-input" data-type="deduction-name" data-index="${i}" type="text" value="${escapeHtml(d.name)}" placeholder="Abzug" />
             <input class="cell-input cell-number" data-type="deduction-qty" data-index="${i}" type="number" inputmode="numeric" pattern="[0-9]*" min="0" step="1" value="${escapeHtml(d.qty)}" placeholder="0" />
             <input class="cell-input cell-number" data-type="deduction-value" data-index="${i}" type="number" inputmode="decimal" step="0.01" min="0" value="${escapeHtml(d.value)}" placeholder="0,00" />
-            <div class="sum-cell">${money(num(d.qty) * num(d.value))}</div>
+            <div class="cell-input cell-number" aria-label="Summe">${money(num(d.qty) * num(d.value))}</div>
             <button class="btn btn-danger" data-action="delete-deduction" data-index="${i}">Löschen</button>
           </div>
         `).join("") || `<div class="empty">Keine Abzüge vorhanden.</div>`;
-      }
 
-      function renderDashboard() {
         const totals = calc();
         els.metricRevenue.textContent = money(totals.revenue);
         els.metricCommission.textContent = money(totals.commission);
         els.metricDeductions.textContent = money(totals.deductions);
         els.metricPayout.textContent = money(totals.payout);
-      }
-
-      function renderAll() {
-        els.eventDate.value = state.eventDate || "";
-        els.eventName.value = state.eventName || "";
-        els.commissionPercent.value = state.commissionPercent ?? 0;
-        renderTables();
-        renderDashboard();
       }
 
       function escapeHtml(value) {
@@ -672,65 +646,47 @@
           .replaceAll("'", "&#39;");
       }
 
-      function setStatus(text, ok = false) {
-        els.saveStatus.textContent = ok ? `● ${text}` : text;
-        els.saveStatus.style.background = ok ? "rgba(22,163,74,0.12)" : "rgba(37,99,235,0.10)";
-        els.saveStatus.style.color = ok ? "var(--success)" : "var(--accent)";
-      }
-
-      function persist(message = "Gespeichert") {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-        setStatus(message, true);
-      }
-
-      function persistDebounced(message = "Gespeichert") {
-        clearTimeout(saveTimer);
-        saveTimer = setTimeout(() => persist(message), 180);
-      }
-
       function updateField(type, index, value) {
         if (type === "eventDate") state.eventDate = value;
-        else if (type === "eventName") state.eventName = value;
-        else if (type === "commissionPercent") state.commissionPercent = int(value);
-        else if (type === "drink-name") state.drinks[index].name = value;
-        else if (type === "drink-qty") state.drinks[index].qty = int(value);
-        else if (type === "drink-price") state.drinks[index].price = num(value);
-        else if (type === "deduction-name") state.deductions[index].name = value;
-        else if (type === "deduction-qty") state.deductions[index].qty = int(value);
-        else if (type === "deduction-value") state.deductions[index].value = num(value);
+        if (type === "eventName") state.eventName = value;
+        if (type === "commissionPercent") state.commissionPercent = int(value);
 
-        renderDashboard();
-        persistDebounced("Live aktualisiert");
+        if (type === "drink-name") state.drinks[index].name = value;
+        if (type === "drink-qty") state.drinks[index].qty = int(value);
+        if (type === "drink-price") state.drinks[index].price = num(value);
+
+        if (type === "deduction-name") state.deductions[index].name = value;
+        if (type === "deduction-qty") state.deductions[index].qty = int(value);
+        if (type === "deduction-value") state.deductions[index].value = num(value);
+
+        render();
+        saveState("Live aktualisiert");
       }
 
       function addDrink() {
         state.drinks.push({ name: "Neues Getränk", qty: 0, price: 0 });
-        renderTables();
-        renderDashboard();
-        persist("Getränk hinzugefügt");
+        render();
+        saveState("Getränk hinzugefügt");
       }
 
       function addDeduction() {
         state.deductions.push({ name: "Neuer Abzug", qty: 0, value: 0 });
-        renderTables();
-        renderDashboard();
-        persist("Abzug hinzugefügt");
+        render();
+        saveState("Abzug hinzugefügt");
       }
 
       function deleteDrink(index) {
         state.drinks.splice(index, 1);
         if (!state.drinks.length) state.drinks.push({ name: "Neues Getränk", qty: 0, price: 0 });
-        renderTables();
-        renderDashboard();
-        persist("Getränk gelöscht");
+        render();
+        saveState("Getränk gelöscht");
       }
 
       function deleteDeduction(index) {
         state.deductions.splice(index, 1);
         if (!state.deductions.length) state.deductions.push({ name: "Neuer Abzug", qty: 0, value: 0 });
-        renderTables();
-        renderDashboard();
-        persist("Abzug gelöscht");
+        render();
+        saveState("Abzug gelöscht");
       }
 
       function saveSettlement() {
@@ -744,15 +700,14 @@
           deductions: structuredClone(state.deductions),
           totals
         });
-        persist("Abrechnung gespeichert");
+        saveState("Abrechnung gespeichert");
       }
 
       function newSettlement() {
         state.drinks = state.drinks.map(d => ({ ...d, qty: 0 }));
         state.deductions = state.deductions.map(d => ({ ...d, qty: 0 }));
-        renderTables();
-        renderDashboard();
-        persist("Neue Abrechnung");
+        render();
+        saveState("Neue Abrechnung");
       }
 
       els.drinksTable.addEventListener("input", (e) => {
@@ -783,7 +738,7 @@
 
       els.addDrinkBtn.addEventListener("click", addDrink);
       els.addDeductionBtn.addEventListener("click", addDeduction);
-      els.saveConfigBtn.addEventListener("click", () => persist("Konfig gespeichert"));
+      els.saveConfigBtn.addEventListener("click", () => saveState("Konfig gespeichert"));
       els.saveSettlementBtn.addEventListener("click", saveSettlement);
       els.newSettlementBtn.addEventListener("click", newSettlement);
       els.printBtn.addEventListener("click", () => window.print());
@@ -802,7 +757,7 @@
         });
       }
 
-      renderAll();
+      render();
       setStatus("Bereit", true);
     })();
   </script>
