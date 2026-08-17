@@ -1,4 +1,4 @@
-const CACHE_NAME = "abrechner-3000-v1";
+const CACHE_NAME = "abrechner-3000-v3";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -26,20 +26,16 @@ self.addEventListener("activate", (event) => {
 });
 
 self.addEventListener("fetch", (event) => {
-  const { request } = event;
-
-  if (request.method !== "GET") return;
+  if (event.request.method !== "GET") return;
 
   event.respondWith(
-    caches.match(request).then((cached) => {
+    caches.match(event.request).then((cached) => {
       if (cached) return cached;
 
-      return fetch(request)
+      return fetch(event.request)
         .then((response) => {
-          const responseClone = response.clone();
-          caches.open(CACHE_NAME).then((cache) => {
-            cache.put(request, responseClone);
-          });
+          const clone = response.clone();
+          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
           return response;
         })
         .catch(() => caches.match("./index.html"));
