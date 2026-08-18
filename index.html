@@ -441,7 +441,7 @@
         <div class="title-row">
           <div>
             <h1>🍺 Abrechner 3000</h1>
-            <div class="subtitle">Von Kellnern- für Kellner</div>
+            <div class="subtitle">Von Keller- für Kellerner</div>
           </div>
           <div class="status" id="saveStatus">● Bereit</div>
         </div>
@@ -559,7 +559,7 @@
 
   <script>
     (() => {
-      const STORAGE_KEY = "abrechner3000_state_v10";
+      const STORAGE_KEY = "abrechner3000_state_v11";
 
       const state = {
         eventDate: "",
@@ -715,15 +715,6 @@
         `).join("");
       }
 
-      function renderAll() {
-        els.eventDate.value = state.eventDate;
-        els.eventName.value = state.eventName;
-        els.commissionPercent.value = state.commissionPercent;
-        renderTables();
-        renderDashboard();
-        renderPrintSummary();
-      }
-
       function renderPrintSummary() {
         const t = calc();
         const drinksList = state.drinks.map(d => `<li>${escapeHtml(d.name)} — ${d.qty} × ${money(d.price)} = ${money(num(d.qty) * num(d.price))}</li>`).join("");
@@ -743,6 +734,15 @@
           <h3>Abzüge</h3>
           <ul class="print-list">${deductionsList || "<li>Keine Abzüge</li>"}</ul>
         `;
+      }
+
+      function renderAll() {
+        els.eventDate.value = state.eventDate;
+        els.eventName.value = state.eventName;
+        els.commissionPercent.value = state.commissionPercent;
+        renderTables();
+        renderDashboard();
+        renderPrintSummary();
       }
 
       function updateSumForRow(kind, index) {
