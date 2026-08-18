@@ -28,7 +28,7 @@
       --radius: 22px;
       --tap: 54px;
       --maxw: 760px;
-      --header-h: 118px;
+      --header-h: 150px;
     }
 
     @media (prefers-color-scheme: dark) {
@@ -133,6 +133,26 @@
       font-weight: 700;
       white-space: nowrap;
       font-size: 0.88rem;
+    }
+
+    .debug {
+      margin-top: 10px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .debug span {
+      display: block;
+      padding: 8px 10px;
+      border-radius: 12px;
+      background: rgba(100,116,139,0.10);
+      border: 1px solid var(--line);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
     .app {
@@ -401,6 +421,7 @@
       .cell { padding: 11px 7px; }
       .btn { padding: 0 10px; }
       .metric { min-height: 92px; padding: 12px; }
+      .debug { grid-template-columns: 1fr; }
     }
 
     @media print {
@@ -441,9 +462,14 @@
         <div class="title-row">
           <div>
             <h1>🍺 Abrechner 3000</h1>
-            <div class="subtitle">Von Keller- für Kellerner</div>
+            <div class="subtitle">Debug-Version · Von Keller- für Kellerner</div>
           </div>
           <div class="status" id="saveStatus">● Bereit</div>
+        </div>
+        <div class="debug">
+          <span id="debugVersion">Version: -</span>
+          <span id="debugSW">SW: -</span>
+          <span id="debugCache">Cache: -</span>
         </div>
       </div>
     </div>
@@ -559,7 +585,8 @@
 
   <script>
     (() => {
-      const STORAGE_KEY = "abrechner3000_state_v11";
+      const VERSION = "v12-debug";
+      const STORAGE_KEY = "abrechner3000_state_v12";
 
       const state = {
         eventDate: "",
@@ -587,7 +614,10 @@
         saveSettlementBtn: document.getElementById("saveSettlementBtn"),
         newSettlementBtn: document.getElementById("newSettlementBtn"),
         printBtn: document.getElementById("printBtn"),
-        printSummary: document.getElementById("printSummary")
+        printSummary: document.getElementById("printSummary"),
+        debugVersion: document.getElementById("debugVersion"),
+        debugSW: document.getElementById("debugSW"),
+        debugCache: document.getElementById("debugCache")
       };
 
       let saveTimer = null;
@@ -613,6 +643,12 @@
           .replaceAll(">", "&gt;")
           .replaceAll('"', "&quot;")
           .replaceAll("'", "&#39;");
+      }
+
+      function setDebug() {
+        els.debugVersion.textContent = `Version: ${VERSION}`;
+        els.debugSW.textContent = `SW: ${"serviceWorker" in navigator ? "supported" : "no"}`;
+        els.debugCache.textContent = `Cache: ${navigator.onLine ? "online" : "offline"}`;
       }
 
       function load() {
@@ -743,6 +779,7 @@
         renderTables();
         renderDashboard();
         renderPrintSummary();
+        setDebug();
       }
 
       function updateSumForRow(kind, index) {
@@ -894,6 +931,9 @@
         document.querySelectorAll(".cell").forEach(autoSelect);
       });
       mo.observe(document.body, { childList: true, subtree: true });
+
+      window.addEventListener("online", setDebug);
+      window.addEventListener("offline", setDebug);
     })();
   </script>
 </body>
