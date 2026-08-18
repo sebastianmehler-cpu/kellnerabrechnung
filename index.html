@@ -255,18 +255,6 @@
       gap: 10px;
     }
 
-    .table-head {
-      display: grid;
-      grid-template-columns: 1.6fr 0.55fr 0.7fr 0.7fr auto;
-      gap: 6px;
-      padding: 0 8px 6px;
-      color: var(--muted);
-      font-size: 0.78rem;
-      font-weight: 700;
-      letter-spacing: 0.02em;
-      text-transform: uppercase;
-    }
-
     .row {
       display: grid;
       grid-template-columns: 1fr;
@@ -286,9 +274,19 @@
 
     .row-bottom {
       display: grid;
-      grid-template-columns: 0.55fr 0.7fr 0.7fr auto;
+      grid-template-columns: 1fr 1fr 1fr auto;
       gap: 6px;
       align-items: center;
+    }
+
+    .label-mini {
+      display: block;
+      color: var(--muted);
+      font-size: 0.74rem;
+      font-weight: 700;
+      margin: 0 0 4px 2px;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
     }
 
     .cell {
@@ -394,19 +392,12 @@
       .form-grid { grid-template-columns: 1fr; }
       .dashboard { grid-template-columns: 1fr 1fr; }
       .section-header { flex-direction: column; align-items: flex-start; }
-      .table-head { grid-template-columns: 1.4fr 0.5fr 0.65fr 0.65fr auto; }
-      .row-bottom { grid-template-columns: 0.5fr 0.65fr 0.65fr auto; }
     }
 
     @media (max-width: 430px) {
       .app { padding-left: 8px; padding-right: 8px; }
       .titlecard, .section { border-radius: 18px; }
-      .table-head {
-        display: none;
-      }
-      .row {
-        padding: 10px;
-      }
+      .row { padding: 10px; }
       .cell { padding: 11px 7px; }
       .btn { padding: 0 10px; }
       .metric { min-height: 92px; padding: 12px; }
@@ -419,7 +410,6 @@
       .section, .titlecard { box-shadow: none; background: white; }
       .app { max-width: none; padding: 0; }
       .row { break-inside: avoid; }
-      .table-head { display: grid !important; }
     }
 
     .print-summary {
@@ -451,7 +441,7 @@
         <div class="title-row">
           <div>
             <h1>🍺 Abrechner 3000</h1>
-            <div class="subtitle">Keller-, Vereins- und Festabrechnung · iPhone Hochformat · offlinefähig</div>
+            <div class="subtitle">Von Kellnern- für Kellner</div>
           </div>
           <div class="status" id="saveStatus">● Bereit</div>
         </div>
@@ -513,9 +503,6 @@
           <div class="hint">Anzahl · Preis · Summe</div>
         </div>
         <div class="section-body">
-          <div class="table-head">
-            <div>Getränk</div><div>Anzahl</div><div>Preis €</div><div>Summe €</div><div></div>
-          </div>
           <div id="drinksTable" class="table"></div>
           <div class="actions">
             <button class="btn btn-secondary" id="addDrinkBtn">+ Getränk hinzufügen</button>
@@ -529,9 +516,6 @@
           <div class="hint">Anzahl · Wert · Summe</div>
         </div>
         <div class="section-body">
-          <div class="table-head">
-            <div>Abzug</div><div>Anzahl</div><div>Wert €</div><div>Summe €</div><div></div>
-          </div>
           <div id="deductionsTable" class="table"></div>
           <div class="actions">
             <button class="btn btn-secondary" id="addDeductionBtn">+ Abzug hinzufügen</button>
@@ -575,7 +559,7 @@
 
   <script>
     (() => {
-      const STORAGE_KEY = "abrechner3000_state_v9";
+      const STORAGE_KEY = "abrechner3000_state_v10";
 
       const state = {
         eventDate: "",
@@ -689,9 +673,18 @@
               <button class="btn btn-danger" data-action="delete-drink" data-index="${i}" aria-label="Getränk löschen">🗑️</button>
             </div>
             <div class="row-bottom">
-              <input class="cell num" data-kind="drink-qty" data-index="${i}" type="number" inputmode="numeric" pattern="[0-9]*" min="0" step="1" value="${escapeHtml(d.qty)}" placeholder="0" />
-              <input class="cell num" data-kind="drink-price" data-index="${i}" type="number" inputmode="decimal" step="0.01" min="0" value="${escapeHtml(d.price)}" placeholder="0,00" />
-              <div class="sum" data-sum-drink="${i}">${money(num(d.qty) * num(d.price))}</div>
+              <div>
+                <div class="label-mini">Anzahl</div>
+                <input class="cell num" data-kind="drink-qty" data-index="${i}" type="number" inputmode="numeric" pattern="[0-9]*" min="0" step="1" value="${escapeHtml(d.qty)}" placeholder="0" />
+              </div>
+              <div>
+                <div class="label-mini">Preis</div>
+                <input class="cell num" data-kind="drink-price" data-index="${i}" type="number" inputmode="decimal" step="0.01" min="0" value="${escapeHtml(d.price)}" placeholder="0,00" />
+              </div>
+              <div>
+                <div class="label-mini">Summe</div>
+                <div class="sum" data-sum-drink="${i}">${money(num(d.qty) * num(d.price))}</div>
+              </div>
               <div></div>
             </div>
           </div>
@@ -704,9 +697,18 @@
               <button class="btn btn-danger" data-action="delete-deduction" data-index="${i}" aria-label="Abzug löschen">🗑️</button>
             </div>
             <div class="row-bottom">
-              <input class="cell num" data-kind="deduction-qty" data-index="${i}" type="number" inputmode="numeric" pattern="[0-9]*" min="0" step="1" value="${escapeHtml(d.qty)}" placeholder="0" />
-              <input class="cell num" data-kind="deduction-value" data-index="${i}" type="number" inputmode="decimal" step="0.01" min="0" value="${escapeHtml(d.value)}" placeholder="0,00" />
-              <div class="sum" data-sum-deduction="${i}">${money(num(d.qty) * num(d.value))}</div>
+              <div>
+                <div class="label-mini">Anzahl</div>
+                <input class="cell num" data-kind="deduction-qty" data-index="${i}" type="number" inputmode="numeric" pattern="[0-9]*" min="0" step="1" value="${escapeHtml(d.qty)}" placeholder="0" />
+              </div>
+              <div>
+                <div class="label-mini">Wert</div>
+                <input class="cell num" data-kind="deduction-value" data-index="${i}" type="number" inputmode="decimal" step="0.01" min="0" value="${escapeHtml(d.value)}" placeholder="0,00" />
+              </div>
+              <div>
+                <div class="label-mini">Summe</div>
+                <div class="sum" data-sum-deduction="${i}">${money(num(d.qty) * num(d.value))}</div>
+              </div>
               <div></div>
             </div>
           </div>
