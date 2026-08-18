@@ -454,7 +454,7 @@
       margin: 4px 0;
     }
 
-    /* PDF / Print Layout */
+    /* PRINT SHEET */
     .print-sheet {
       display: none;
     }
@@ -498,10 +498,6 @@
 
       .print-center {
         text-align: center;
-      }
-
-      .print-blank {
-        background: #fff;
       }
 
       .print-total-label {
@@ -642,7 +638,6 @@
     </div>
   </div>
 
-  <!-- PRINT SHEET -->
   <div class="print-sheet" id="printSheet">
     <table>
       <tr><td class="print-title" colspan="6">Abrechnung</td></tr>
@@ -678,8 +673,8 @@
 
   <script>
     (() => {
-      const VERSION = "v13-print";
-      const STORAGE_KEY = "abrechner3000_state_v13";
+      const VERSION = "v14-print-portrait";
+      const STORAGE_KEY = "abrechner3000_state_v14";
 
       const state = {
         eventDate: "",
@@ -711,7 +706,6 @@
         debugVersion: document.getElementById("debugVersion"),
         debugSW: document.getElementById("debugSW"),
         debugCache: document.getElementById("debugCache"),
-        printSheet: document.getElementById("printSheet"),
         printDate: document.getElementById("printDate"),
         printDrinks: document.getElementById("printDrinks"),
         printDeductions: document.getElementById("printDeductions"),
@@ -880,20 +874,22 @@
         els.printDrinks.innerHTML = state.drinks.map(d => `
           <tr>
             <td>${escapeHtml(d.name)}</td>
+            <td class="print-center">${d.qty}</td>
             <td class="print-center">x</td>
             <td class="print-right">${money(d.price)}</td>
             <td class="print-center">=</td>
-            <td class="print-right" colspan="2">${money(num(d.qty) * num(d.price))}</td>
+            <td class="print-right">${money(num(d.qty) * num(d.price))}</td>
           </tr>
         `).join("");
 
         els.printDeductions.innerHTML = state.deductions.map(d => `
           <tr>
             <td>${escapeHtml(d.name)}</td>
+            <td class="print-center">${d.qty}</td>
             <td class="print-center">x</td>
             <td class="print-right">${money(d.value)}</td>
             <td class="print-center">=</td>
-            <td class="print-right" colspan="2">${money(num(d.qty) * num(d.value))}</td>
+            <td class="print-right">${money(num(d.qty) * num(d.value))}</td>
           </tr>
         `).join("");
 
