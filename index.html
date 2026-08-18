@@ -28,7 +28,7 @@
       --radius: 22px;
       --tap: 54px;
       --maxw: 760px;
-      --header-h: 150px;
+      --header-h: 118px;
     }
 
     @media (prefers-color-scheme: dark) {
@@ -133,26 +133,6 @@
       font-weight: 700;
       white-space: nowrap;
       font-size: 0.88rem;
-    }
-
-    .debug {
-      margin-top: 10px;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-      font-size: 0.78rem;
-      color: var(--muted);
-    }
-
-    .debug span {
-      display: block;
-      padding: 8px 10px;
-      border-radius: 12px;
-      background: rgba(100,116,139,0.10);
-      border: 1px solid var(--line);
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
     }
 
     .app {
@@ -421,7 +401,6 @@
       .cell { padding: 11px 7px; }
       .btn { padding: 0 10px; }
       .metric { min-height: 92px; padding: 12px; }
-      .debug { grid-template-columns: 1fr; }
     }
 
     @media print {
@@ -454,7 +433,6 @@
       margin: 4px 0;
     }
 
-    /* PRINT SHEET */
     .print-sheet {
       display: none;
     }
@@ -508,6 +486,18 @@
         display: none !important;
       }
     }
+
+    .footer-debug {
+      margin-top: 10px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: rgba(100,116,139,0.10);
+      color: var(--muted);
+      font-size: 0.8rem;
+      display: grid;
+      gap: 4px;
+    }
   </style>
 </head>
 <body>
@@ -520,11 +510,6 @@
             <div class="subtitle">Debug-Version · Von Keller- für Kellerner</div>
           </div>
           <div class="status" id="saveStatus">● Bereit</div>
-        </div>
-        <div class="debug">
-          <span id="debugVersion">Version: -</span>
-          <span id="debugSW">SW: -</span>
-          <span id="debugCache">Cache: -</span>
         </div>
       </div>
     </div>
@@ -633,6 +618,12 @@
           </div>
 
           <div class="print-only print-summary" id="printSummary"></div>
+
+          <div class="footer-debug">
+            <div id="debugVersion">Version: -</div>
+            <div id="debugSW">SW: -</div>
+            <div id="debugCache">Cache: -</div>
+          </div>
         </div>
       </section>
     </div>
@@ -673,8 +664,8 @@
 
   <script>
     (() => {
-      const VERSION = "v14-print-portrait";
-      const STORAGE_KEY = "abrechner3000_state_v14";
+      const VERSION = "v15-debug-footer";
+      const STORAGE_KEY = "abrechner3000_state_v15";
 
       const state = {
         eventDate: "",
