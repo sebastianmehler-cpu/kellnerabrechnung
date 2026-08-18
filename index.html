@@ -453,6 +453,65 @@
     .print-list li {
       margin: 4px 0;
     }
+
+    /* PDF / Print Layout */
+    .print-sheet {
+      display: none;
+    }
+
+    @media print {
+      .print-sheet {
+        display: block !important;
+        font-family: Arial, sans-serif;
+        color: #000;
+        padding: 0;
+      }
+
+      .print-sheet table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 12px;
+      }
+
+      .print-sheet td, .print-sheet th {
+        border: 1px solid #000;
+        padding: 4px 6px;
+        vertical-align: middle;
+      }
+
+      .print-title {
+        background: #cfe0ff;
+        font-weight: bold;
+        text-align: center;
+        font-size: 16px;
+      }
+
+      .print-section {
+        background: #cfe0ff;
+        font-weight: bold;
+        text-align: center;
+      }
+
+      .print-right {
+        text-align: right;
+      }
+
+      .print-center {
+        text-align: center;
+      }
+
+      .print-blank {
+        background: #fff;
+      }
+
+      .print-total-label {
+        font-weight: bold;
+      }
+
+      .app, .header {
+        display: none !important;
+      }
+    }
   </style>
 </head>
 <body>
@@ -583,10 +642,44 @@
     </div>
   </div>
 
+  <!-- PRINT SHEET -->
+  <div class="print-sheet" id="printSheet">
+    <table>
+      <tr><td class="print-title" colspan="6">Abrechnung</td></tr>
+      <tr>
+        <td colspan="6"><strong>Datum:</strong> <span id="printDate"></span></td>
+      </tr>
+      <tr><td class="print-section" colspan="6">IST</td></tr>
+      <tbody id="printDrinks"></tbody>
+      <tr>
+        <td colspan="4" class="print-total-label">Gesamt</td>
+        <td class="print-right" colspan="2" id="printDrinkTotal"></td>
+      </tr>
+      <tr><td class="print-section" colspan="6">Abzug</td></tr>
+      <tbody id="printDeductions"></tbody>
+      <tr>
+        <td colspan="4" class="print-total-label">Gesamt</td>
+        <td class="print-right" colspan="2" id="printDeductionTotal"></td>
+      </tr>
+      <tr>
+        <td colspan="4" class="print-total-label">Übertrag - IST</td>
+        <td class="print-right" colspan="2" id="printTransfer"></td>
+      </tr>
+      <tr>
+        <td colspan="4" class="print-total-label">Abzug</td>
+        <td class="print-right" colspan="2" id="printDeduction"></td>
+      </tr>
+      <tr>
+        <td colspan="4" class="print-total-label">Summe</td>
+        <td class="print-right" colspan="2" id="printSum"></td>
+      </tr>
+    </table>
+  </div>
+
   <script>
     (() => {
-      const VERSION = "v12-debug";
-      const STORAGE_KEY = "abrechner3000_state_v12";
+      const VERSION = "v13-print";
+      const STORAGE_KEY = "abrechner3000_state_v13";
 
       const state = {
         eventDate: "",
@@ -617,7 +710,16 @@
         printSummary: document.getElementById("printSummary"),
         debugVersion: document.getElementById("debugVersion"),
         debugSW: document.getElementById("debugSW"),
-        debugCache: document.getElementById("debugCache")
+        debugCache: document.getElementById("debugCache"),
+        printSheet: document.getElementById("printSheet"),
+        printDate: document.getElementById("printDate"),
+        printDrinks: document.getElementById("printDrinks"),
+        printDeductions: document.getElementById("printDeductions"),
+        printDrinkTotal: document.getElementById("printDrinkTotal"),
+        printDeductionTotal: document.getElementById("printDeductionTotal"),
+        printTransfer: document.getElementById("printTransfer"),
+        printDeduction: document.getElementById("printDeduction"),
+        printSum: document.getElementById("printSum")
       };
 
       let saveTimer = null;
@@ -772,6 +874,36 @@
         `;
       }
 
+      function renderPrintSheet() {
+        const t = calc();
+        els.printDate.textContent = state.eventDate || "-";
+        els.printDrinks.innerHTML = state.drinks.map(d => `
+          <tr>
+            <td>${escapeHtml(d.name)}</td>
+            <td class="print-center">x</td>
+            <td class="print-right">${money(d.price)}</td>
+            <td class="print-center">=</td>
+            <td class="print-right" colspan="2">${money(num(d.qty) * num(d.price))}</td>
+          </tr>
+        `).join("");
+
+        els.printDeductions.innerHTML = state.deductions.map(d => `
+          <tr>
+            <td>${escapeHtml(d.name)}</td>
+            <td class="print-center">x</td>
+            <td class="print-right">${money(d.value)}</td>
+            <td class="print-center">=</td>
+            <td class="print-right" colspan="2">${money(num(d.qty) * num(d.value))}</td>
+          </tr>
+        `).join("");
+
+        els.printDrinkTotal.textContent = money(t.revenue);
+        els.printDeductionTotal.textContent = money(t.deductions);
+        els.printTransfer.textContent = money(t.revenue);
+        els.printDeduction.textContent = money(t.deductions);
+        els.printSum.textContent = money(t.payout);
+      }
+
       function renderAll() {
         els.eventDate.value = state.eventDate;
         els.eventName.value = state.eventName;
@@ -779,6 +911,7 @@
         renderTables();
         renderDashboard();
         renderPrintSummary();
+        renderPrintSheet();
         setDebug();
       }
 
@@ -806,6 +939,7 @@
 
         renderDashboard();
         renderPrintSummary();
+        renderPrintSheet();
         saveDebounced();
       }
 
@@ -814,6 +948,7 @@
         renderTables();
         renderDashboard();
         renderPrintSummary();
+        renderPrintSheet();
         save("Getränk hinzugefügt");
       }
 
@@ -822,6 +957,7 @@
         renderTables();
         renderDashboard();
         renderPrintSummary();
+        renderPrintSheet();
         save("Abzug hinzugefügt");
       }
 
@@ -831,6 +967,7 @@
         renderTables();
         renderDashboard();
         renderPrintSummary();
+        renderPrintSheet();
         save("Getränk gelöscht");
       }
 
@@ -840,6 +977,7 @@
         renderTables();
         renderDashboard();
         renderPrintSummary();
+        renderPrintSheet();
         save("Abzug gelöscht");
       }
 
@@ -863,6 +1001,7 @@
         renderTables();
         renderDashboard();
         renderPrintSummary();
+        renderPrintSheet();
         save("Neue Abrechnung");
       }
 
@@ -909,7 +1048,10 @@
       els.saveConfigBtn.addEventListener("click", () => save("Konfig gespeichert"));
       els.saveSettlementBtn.addEventListener("click", saveSettlement);
       els.newSettlementBtn.addEventListener("click", newSettlement);
-      els.printBtn.addEventListener("click", () => window.print());
+      els.printBtn.addEventListener("click", () => {
+        renderPrintSheet();
+        window.print();
+      });
 
       if ("serviceWorker" in navigator) {
         window.addEventListener("load", async () => {
