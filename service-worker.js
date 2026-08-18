@@ -1,4 +1,4 @@
-const CACHE_NAME = "abrechner-3000-v14";
+const CACHE_NAME = "abrechner-3000-v15";
 const APP_SHELL = [
   "./",
   "./index.html",
